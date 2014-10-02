@@ -1,6 +1,5 @@
-Simple sliders extension for Yii 2
-==================================
-Sliders module
+Sliders module for Yii 2
+========================
 
 Installation
 ------------
