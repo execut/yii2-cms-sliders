@@ -1,8 +1,6 @@
-Do not use this module! It's far from ready and it\'s not yet usefull
-
 Simple sliders extension for Yii 2
 ==================================
-This extension provides pages that can be added to a menu
+Sliders module
 
 Installation
 ------------
@@ -12,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist infoweb/yii2-sliders "*"
+php composer.phar require --prefer-dist infoweb-internet-solutions/yii2-cms-sliders "*"
 ```
 
 or add
 
 ```
-"infoweb/yii2-sliders": "*"
+"infoweb-internet-solutions/yii2-cms-sliders": "*"
 ```
 
 to the require section of your `composer.json` file.
