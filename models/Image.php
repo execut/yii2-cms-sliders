@@ -4,6 +4,7 @@ namespace infoweb\sliders\models;
 use rico\yii2images\models\Image as BaseImage;
 use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class Image extends BaseImage
 {
@@ -21,6 +22,19 @@ class Image extends BaseImage
             ],
         ]);
     }
+
+    /*
+    public function getUrl($size = false){
+        $urlSize = ($size) ? '_'.$size : '';
+        $url = Url::toRoute([
+            '/'.$this->getModule()->id.'/images/image-by-item-and-alias',
+            'item' => $this->modelName.$this->itemId,
+            'dirtyAlias' =>  $this->urlAlias.$urlSize.'.'.$this->getExtension()
+        ]);
+
+        return $url;
+    }
+    */
 
     public function getPath($size = false){
         $urlSize = ($size) ? '_'.$size : '';

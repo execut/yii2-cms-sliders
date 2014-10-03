@@ -1,6 +1,12 @@
 Sliders module for Yii 2
 ========================
 
+Docs
+-----
+- [Installation admin module](https://github.com/mdmsoft/yii2-admin)
+- [Installation user module](https://github.com/infoweb-internet-solutions/yii2-cms-user)
+- [Installation migration utitlity](https://github.com/c006/yii2-migration-utility)
+
 Installation
 ------------
 

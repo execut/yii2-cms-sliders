@@ -50,19 +50,20 @@ class ImagesController extends BaseImagesController
             $form = new UploadForm;
             $images = UploadedFile::getInstances($form, 'images');
 
-            foreach ($images as $image) {
+            foreach ($images as $k => $image) {
 
                 $_model = new UploadForm();
                 $_model->image = $image;
 
-                $path = "img/original/{$_model->image->baseName}.{$_model->image->extension}";
-
                 if ($_model->validate()) {
+
+                    $path = "img/store/{$_model->image->baseName}.{$_model->image->extension}";
 
                     $_model->image->saveAs($path);
 
                     // Attach image to model
                     $slider->attachImage($path);
+
 
                 } else {
                     foreach ($_model->getErrors('image') as $error) {
@@ -193,7 +194,7 @@ class ImagesController extends BaseImagesController
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return $response;
 
-            // Normal request, save models
+                // Normal request, save models
             } else {
                 // Wrap the everything in a database transaction
                 $transaction = Yii::$app->db->beginTransaction();
@@ -274,9 +275,6 @@ class ImagesController extends BaseImagesController
 
             Image::deleteAll(['id' => $ids]);
 
-            // Set flash message
-            // @todo Show flash message (with javascript?)
-            //Yii::$app->session->setFlash('slider-success', Yii::t('app', '{n, plural, =1{# slider} other{# sliders}} successfully deleted', ['n' => count($ids)]));
             $data['message'] = Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
             $data['status'] = 1;
         }

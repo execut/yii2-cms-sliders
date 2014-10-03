@@ -229,8 +229,6 @@ class DefaultController extends Controller
             Slider::deleteAll(['id' => $ids]);
 
             // Set flash message
-            // @todo Show flash message (with javascript?)
-            //Yii::$app->session->setFlash('slider-success', Yii::t('app', '{n, plural, =1{# slider} other{# sliders}} successfully deleted', ['n' => count($ids)]));
             $data['message'] = Yii::t('app', '{n, plural, =1{Slider} other{# sliders}} successfully deleted', ['n' => count($ids)]);
             $data['status'] = 1;
         }
