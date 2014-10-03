@@ -22,6 +22,28 @@ class Image extends BaseImage
         ]);
     }
 
+    public function getPath($size = false){
+        $urlSize = ($size) ? '_'.$size : '';
+        $base = $this->getModule()->getCachePath();
+        $sub = $this->getSubDur();
+
+        $origin = $this->getPathToOrigin();
+
+        // Custom
+        $filePath = $base.'/'.
+            $sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);;
+
+        if(!file_exists($filePath)){
+            $this->createVersion($origin, $size);
+
+            if(!file_exists($filePath)){
+                throw new \Exception('Problem with image creating.');
+            }
+        }
+
+        return $filePath;
+    }
+
     /**
      * @inheritdoc
      */

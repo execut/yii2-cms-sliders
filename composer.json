@@ -24,7 +24,10 @@
 	"require": {
 	   "yiisoft/yii2": "*",
         "infoweb-internet-solutions/yii2-cms": "*",
-        "costa-rico/yii2-images": "*"
+        "costa-rico/yii2-images": "*",
+        "bower-asset/bootbox": "@stable",
+        "bower-asset/bootstrap.growl": "@stable",
+        "bower-asset/fancybox": "@stable"
 	},
 	"autoload": {
 		"psr-4": {

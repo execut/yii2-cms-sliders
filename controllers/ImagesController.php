@@ -7,10 +7,9 @@ use rico\yii2images\controllers\ImagesController as BaseImagesController;
 use Yii;
 
 use infoweb\sliders\models\Image;
-use infoweb\sliders\models\SearchImage;
+use infoweb\sliders\models\ImageSearch;
 use infoweb\sliders\models\Slider;
-// @todo Change namespace
-use app\models\UploadForm;
+use infoweb\sliders\models\UploadForm;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -83,7 +82,7 @@ class ImagesController extends BaseImagesController
 
         }
 
-        $searchModel = new SearchImage();
+        $searchModel = new ImageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
 
         $gridView = [

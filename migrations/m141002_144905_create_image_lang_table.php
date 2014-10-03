@@ -13,31 +13,25 @@ class m141002_144905_create_image_lang_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        // Create 'page_partials' table
+        // Create 'image_lang' table
         $this->createTable('{{%image_lang}}', [
-            'id'                    => Schema::TYPE_PK,
-            'type'                  => "ENUM('system','user-defined') NOT NULL DEFAULT 'user-defined'",
-            'created_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
-            'updated_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
-        ], $tableOptions);
-
-        // Create 'page_partials_lang' table
-        $this->createTable('{{%page_partials_lang}}', [
-            'page_partial_id'       => Schema::TYPE_INTEGER . ' NOT NULL',
+            'image_id'              => Schema::TYPE_INTEGER . '(10) UNSIGNED NOT NULL',
             'language'              => Schema::TYPE_STRING . '(2) NOT NULL',
-            'name'                  => Schema::TYPE_STRING . '(255) NOT NULL',
-            'content'               => Schema::TYPE_TEXT . ' NOT NULL',
-            'created_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
-            'updated_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL'
+            'alt'                   => Schema::TYPE_STRING . ' NOT NULL',
+            'title'                 => Schema::TYPE_STRING . ' NOT NULL',
+            'description'           => Schema::TYPE_TEXT . ' NOT NULL',
+            'created_at'            => Schema::TYPE_INTEGER . '(10) UNSIGNED NOT NULL',
+            'updated_at'            => Schema::TYPE_INTEGER . '(10) UNSIGNED NOT NULL',
         ], $tableOptions);
 
-        $this->addPrimaryKey('page_partial_id_language', '{{%page_partials_lang}}', ['page_partial_id', 'language']);
-        $this->createIndex('language', '{{%page_partials_lang}}', 'language');
-        $this->addForeignKey('FK_PAGE_PARTIALS_LANG_PAGE_PARTIAL_ID', '{{%page_partials_lang}}', 'page_partial_id', '{{%page_partials}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addPrimaryKey('image_lang_image_id_language', '{{%image_lang}}', ['image_id', 'language']);
+        $this->createIndex('language', '{{%image_lang}}', 'language');
+        $this->addForeignKey('FK_IMAGE_LANG_IMAGE_ID', '{{%image_lang}}', 'image_id', '{{%image}}', 'id', 'CASCADE', 'RESTRICT');
+
     }
 
     public function down()
     {
-        $this->dropTable('slider');
+        $this->dropTable('image_lang');
     }
 }

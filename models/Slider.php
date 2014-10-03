@@ -35,7 +35,7 @@ class Slider extends \yii\db\ActiveRecord
     {
         return [
             'image' => [
-                'class' => 'rico\yii2images\behaviors\ImageBehave',
+                'class' => 'infoweb\sliders\behaviors\ImageBehave',
             ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),

@@ -5,12 +5,12 @@ namespace infoweb\sliders\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use infoweb\sliders\models\Image;
+use infoweb\sliders\models\Slider;
 
 /**
  * SearchSlider represents the model behind the search form about `app\models\Slider`.
  */
-class SearchImage extends Image
+class SliderSearch extends Slider
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SearchImage extends Image
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            //[['name'], 'safe'],
+            [['id', 'width', 'height', 'created_at', 'updated_at'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -39,13 +39,12 @@ class SearchImage extends Image
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $id)
+    public function search($params)
     {
-        $query = Image::find()->where(['itemId' => $id]);
+        $query = Slider::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'  => ['defaultOrder' => ['position' => SORT_DESC ]]
         ]);
 
         if (!($this->load($params) && $this->validate())) {
@@ -54,9 +53,13 @@ class SearchImage extends Image
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'width' => $this->width,
+            'height' => $this->height,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        //$query->andFilterWhere(['like', 'urlAlias', $this->urlAlias]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

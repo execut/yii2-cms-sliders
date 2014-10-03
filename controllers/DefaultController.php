@@ -4,8 +4,7 @@ namespace infoweb\sliders\controllers;
 
 use Yii;
 use infoweb\sliders\models\Slider;
-use infoweb\sliders\models\SearchSlider;
-use infoweb\sliders\models\SearchSliderImage;
+use infoweb\sliders\models\SliderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +37,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchSlider();
+        $searchModel = new SliderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $gridView = [
