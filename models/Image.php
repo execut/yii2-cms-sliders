@@ -4,6 +4,8 @@ namespace infoweb\sliders\models;
 use rico\yii2images\models\Image as BaseImage;
 use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 class Image extends BaseImage
 {
@@ -11,6 +13,16 @@ class Image extends BaseImage
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+                'value' => function () {
+                    return time();
+                },
+            ],
             'trans' => [
                 'class' => TranslateableBehavior::className(),
                 'translationAttributes' => [
@@ -42,9 +54,7 @@ class Image extends BaseImage
 
         $origin = $this->getPathToOrigin();
 
-        // Custom
-        $filePath = $base.'/'.
-            $sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);;
+        $filePath = $base.'/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);;
 
         if(!file_exists($filePath)){
             $this->createVersion($origin, $size);
@@ -65,7 +75,7 @@ class Image extends BaseImage
         return [
             // @todo Update rules
             //[['filePath', 'itemId', 'modelName', 'urlAlias'], 'required'],
-            [['itemId', 'isMain'], 'integer'],
+            [['itemId', 'isMain', 'created_at', 'updated_at'], 'integer'],
             [['filePath', 'urlAlias'], 'string', 'max' => 400],
             [['modelName'], 'string', 'max' => 150]
         ];
@@ -80,6 +90,6 @@ class Image extends BaseImage
     }
 
     public function getImage() {
-        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . \Yii::$app->request->baseUrl . '/' . $this->getPath('1000x') . '"><img src="' . \Yii::$app->request->baseUrl . '/web/' . $this->getPath('80x80') . '" /></a>';
+        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . \Yii::getAlias('@uploads') . '/' . $this->getPath('1000x') . '"><img src="' . \Yii::getAlias('@uploads') . '/' . $this->getPath('80x80') . '" /></a>';
     }
 }

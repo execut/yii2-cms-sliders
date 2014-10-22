@@ -53,13 +53,12 @@ class ImagesController extends BaseImagesController
 
                 if ($_model->validate()) {
 
-                    $path = "img/store/{$_model->image->baseName}.{$_model->image->extension}";
+                    $path = "uploads/store/{$_model->image->baseName}.{$_model->image->extension}";
 
                     $_model->image->saveAs($path);
 
                     // Attach image to model
                     $slider->attachImage($path);
-
 
                 } else {
                     foreach ($_model->getErrors('image') as $error) {
@@ -88,6 +87,7 @@ class ImagesController extends BaseImagesController
             'slider' => $slider,
         ]);
     }
+
     /**
      * Displays a single Image model.
      * @param string $id

@@ -9,6 +9,7 @@ class ImageAsset extends AssetBundle
     public $sourcePath = '@infoweb/sliders/assets/';
 
     public $css = [
+        'css/images.css',
     ];
     public $js = [
         'js/images.js',
