@@ -26,6 +26,7 @@ class ImagesController extends BaseImagesController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'upload' => ['post']
                 ],
             ],
         ];
@@ -41,7 +42,23 @@ class ImagesController extends BaseImagesController
 
         $slider = Slider::findOne($get['sliderId']);
 
+        $searchModel = new ImageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'slider' => $slider,
+        ]);
+    }
+
+    public function actionUpload()
+    {
         if (Yii::$app->request->isPost) {
+
+            $post = Yii::$app->request->post();
+
+            $slider = Slider::findOne($post['sliderId']);
 
             $form = new UploadForm;
             $images = UploadedFile::getInstances($form, 'images');
@@ -52,8 +69,7 @@ class ImagesController extends BaseImagesController
                 $_model->image = $image;
 
                 if ($_model->validate()) {
-
-                    $path = "uploads/store/{$_model->image->baseName}.{$_model->image->extension}";
+                    $path = \Yii::getAlias('@uploadsBaseUrl') . "/img/{$_model->image->baseName}.{$_model->image->extension}";
 
                     $_model->image->saveAs($path);
 
@@ -76,16 +92,9 @@ class ImagesController extends BaseImagesController
                 Yii::$app->session->setFlash('image-success', Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
             }
 
+            return $this->redirect(['index?sliderId=' . $post['sliderId']]);
+
         }
-
-        $searchModel = new ImageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'slider' => $slider,
-        ]);
     }
 
     /**

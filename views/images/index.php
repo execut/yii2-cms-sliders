@@ -27,7 +27,9 @@ $this->render('_growl_messages');
 
     <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => 'Images'] ) ?></h1>
 
-    <?php $form = ActiveForm::begin(['options' => ['class' => 'sliders-upload-form', 'enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['action' => 'upload', 'options' => [ 'class' => 'sliders-upload-form', 'enctype' => 'multipart/form-data']]); ?>
+
+    <?= Html::hiddenInput('sliderId', $slider->id) ?>
 
     <?php if ($slider->hasErrors()) { //it is necessary to see all the errors for all the files. @todo Show growl message
         echo '<pre>';
@@ -39,7 +41,7 @@ $this->render('_growl_messages');
         'name' => 'UploadForm[images][]',
         'options' => [
             'multiple' => true,
-            'accept' => 'image/*',
+            //'accept' => 'image/*',
         ],
         'pluginOptions' => [
             'previewFileType' => 'any',

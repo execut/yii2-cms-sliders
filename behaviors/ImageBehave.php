@@ -20,6 +20,7 @@ use yii\db\Query;
 
 class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
 {
+
     /**
      *
      * Method copies image file to module store and creates db record.
@@ -62,6 +63,9 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
             throw new \Exception('Cant copy file! ' . $absolutePath . ' to ' . $newAbsolutePath);
         }
 
+        // Custom
+        unlink($absolutePath);
+
         if($this->modelClass === null) {
             $image = new models\Image;
         }else{
@@ -71,18 +75,11 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
         $image->filePath = $pictureSubDir . '/' . $pictureFileName;
         $image->modelName = $this->getModule()->getShortClass($this->owner);
 
-        // Custom
-        $image->urlAlias = $this->getAlias($pictureFileName);
+        $image->urlAlias = $this->getAlias($image);
 
         // Custom
-        $query = new Query;
-        $position = $query->select('`position`')
-            ->from(Image::tableName())
-            ->where("`modelName` = 'Slider'")->max('position');
-
-        $image->position = $position + 1;
-        $name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $pictureFileName);
-        $image->name = $name;
+        $nameWithoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $pictureFileName);
+        $image->name = $nameWithoutExt;
 
         if(!$image->save()){
             return false;
@@ -108,8 +105,26 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
             $this->setMainImage($image);
         }
 
-
         return $image;
+    }
+
+    /** Make string part of image's url
+     * @return string
+     * @throws \Exception
+     */
+    private function getAliasString()
+    {
+        if ($this->createAliasMethod) {
+            $string = $this->owner->{$this->createAliasMethod}();
+            if (!is_string($string)) {
+                throw new \Exception("Image's url must be string!");
+            } else {
+                return $string;
+            }
+
+        } else {
+            return substr(md5(microtime()), 0, 10);
+        }
     }
 
     /**
@@ -117,19 +132,12 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
      * Обновить алиасы для картинок
      * Зачистить кэш
      */
-    private function getAlias($pictureFileName)
+    private function getAlias()
     {
+        $aliasWords = $this->getAliasString();
         $imagesCount = count($this->owner->getImages());
 
-        // Custom
-        // Remove extension
-        $pictureFileName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $pictureFileName);
-        return strtolower(trim(preg_replace('/[^a-zA-Z0-9\-]+/', '-', $pictureFileName), '-')) . '-' . intval($imagesCount + 1);
+        return $this->getImage()->name . '-' . intval($imagesCount + 1);
     }
 
-
-
-
 }
-
-

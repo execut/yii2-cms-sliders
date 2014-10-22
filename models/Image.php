@@ -6,6 +6,7 @@ use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 
 class Image extends BaseImage
 {
@@ -34,18 +35,26 @@ class Image extends BaseImage
         ]);
     }
 
-    /*
     public function getUrl($size = false){
         $urlSize = ($size) ? '_'.$size : '';
-        $url = Url::toRoute([
-            '/'.$this->getModule()->id.'/images/image-by-item-and-alias',
-            'item' => $this->modelName.$this->itemId,
-            'dirtyAlias' =>  $this->urlAlias.$urlSize.'.'.$this->getExtension()
-        ]);
+        $base = $this->getModule()->getCachePath();
+        $sub = $this->getSubDur();
+        $origin = $this->getPathToOrigin();
 
-        return $url;
+        $filePath = $base.'/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);
+
+        if(!file_exists($filePath)){
+            $this->createVersion($origin, $size);
+
+            if(!file_exists($filePath)){
+                throw new \Exception('Problem with image creating.');
+            }
+        }
+
+        $httpPath = \Yii::getAlias('@uploads').'/img/cache/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);
+
+        return $httpPath;
     }
-    */
 
     public function getPath($size = false){
         $urlSize = ($size) ? '_'.$size : '';
@@ -54,7 +63,7 @@ class Image extends BaseImage
 
         $origin = $this->getPathToOrigin();
 
-        $filePath = $base.'/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);;
+        $filePath = $base.'/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);
 
         if(!file_exists($filePath)){
             $this->createVersion($origin, $size);
@@ -90,6 +99,6 @@ class Image extends BaseImage
     }
 
     public function getImage() {
-        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . \Yii::getAlias('@uploads') . '/' . $this->getPath('1000x') . '"><img src="' . \Yii::getAlias('@uploads') . '/' . $this->getPath('80x80') . '" /></a>';
+        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . $this->getUrl('1000x') . '"><img src="' . $this->getUrl('80x80') . '" /></a>';
     }
 }
