@@ -33,11 +33,14 @@ return [
     'modules' => [
         ...
         'yii2images' => [
-           'class' => 'rico\yii2images\Module',
-           'imagesStorePath' => 'img/store', //path to origin images
-           'imagesCachePath' => 'img/cache', //path to resized copies
-           'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
-           'placeHolderPath' => '@infoweb/sliders/img/placeHolder.png',
+            'class' => 'rico\yii2images\Module',
+            // @frontend/web/
+            'imagesStorePath' => 'uploads/store', //path to origin images
+            'imagesCachePath' => 'uploads/cache', //path to resized copies
+            'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
+            'placeHolderPath' => '@infoweb/sliders/assets/img/placeHolder.png',
+            //Class name to handle image storage in db
+            'className' => '@infoweb/sliders/models/Image'
         ],
     ],
 ];
