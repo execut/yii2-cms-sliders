@@ -39,8 +39,6 @@ return [
             'imagesCachePath' => 'uploads/cache', //path to resized copies
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
             'placeHolderPath' => '@infoweb/sliders/assets/img/placeHolder.png',
-            //Class name to handle image storage in db
-            'className' => '@infoweb/sliders/models/Image'
         ],
     ],
 ];
