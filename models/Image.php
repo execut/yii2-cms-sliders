@@ -4,7 +4,6 @@ namespace infoweb\sliders\models;
 use rico\yii2images\models\Image as BaseImage;
 use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 
 class Image extends BaseImage
 {
@@ -64,6 +63,7 @@ class Image extends BaseImage
     public function rules()
     {
         return [
+            // @todo Update rules
             //[['filePath', 'itemId', 'modelName', 'urlAlias'], 'required'],
             [['itemId', 'isMain'], 'integer'],
             [['filePath', 'urlAlias'], 'string', 'max' => 400],
@@ -80,6 +80,6 @@ class Image extends BaseImage
     }
 
     public function getImage() {
-        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . \Yii::$app->request->baseUrl . '/' . $this->getPath('1000x') . '"><img src="' . \Yii::$app->request->baseUrl . '/' . $this->getPath('80x80') . '" /></a>';
+        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . \Yii::$app->request->baseUrl . '/' . $this->getPath('1000x') . '"><img src="' . \Yii::$app->request->baseUrl . '/web/' . $this->getPath('80x80') . '" /></a>';
     }
 }

@@ -6,11 +6,12 @@ use yii\widgets\ActiveForm;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use infoweb\sliders\ImageAsset;
+use yii\helpers\Url;
 
 ImageAsset::register($this);
 
 /* @var $this yii\web\View */
-/* @var $slider app\models\Slider */
+/* @var $slider infoweb\sliders\models\Slider */
 
 $this->title = Yii::t('app', 'Images');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sliders'), 'url' => ['/sliders']];
@@ -65,7 +66,49 @@ $this->render('_growl_messages');
     <?php Pjax::begin([
         'id'=>'grid-pjax'
     ]); ?>
-    <?= GridView::widget($gridView); ?>
+    <?= GridView::widget([
+        'id' => 'gridview',
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            [
+                'class' => '\kartik\grid\CheckboxColumn'
+            ],
+            [
+                'format' => 'raw',
+                'label' => Yii::t('app', 'Image'),
+                'hAlign' => GridView::ALIGN_CENTER,
+                'value' => function($data) { return $data->image; },
+                'width' => '96px',
+
+            ],
+            [
+                'class' => '\kartik\grid\DataColumn',
+                'label' => Yii::t('app', 'Name'),
+                'value' => function($data) { return $data->name; },
+                'vAlign' => GridView::ALIGN_MIDDLE,
+            ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'urlCreator' => function($action, $model, $key, $index) {
+
+                    $params = is_array($key) ? $key : ['id' => (int) $key, 'sliderId' => Yii::$app->request->get('sliderId')];
+                    $params[0] = $action;
+
+
+                    return Url::toRoute($params);
+                },
+                'updateOptions'=>['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
+                'deleteOptions'=>['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
+                'width' => '100px',
+            ],
+        ],
+        'responsive' => true,
+        'floatHeader' => true,
+        'floatHeaderOptions' => ['scrollingTop' => 88],
+        'hover' => true,
+    ]) ?>
     <?php Pjax::end(); ?>
 
 </div>

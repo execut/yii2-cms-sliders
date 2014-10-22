@@ -10,9 +10,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\web\UploadedFile;
 
 /**
  * SliderController implements the CRUD actions for Slider model.
@@ -40,82 +37,9 @@ class DefaultController extends Controller
         $searchModel = new SliderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $gridView = [
-            'id' => 'gridview',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                [
-                    'class' => '\kartik\grid\CheckboxColumn',
-                    'options' => ['class' => 'test']
-                ],
-                [
-                    'class' => '\kartik\grid\DataColumn',
-                    'attribute' => 'name',
-                    'format' => 'raw',
-                    'value' => function ($model) {
-                            return Html::a(Html::encode($model->name), Url::toRoute([
-                                'update', 'id' => $model->id
-                            ]), [
-                                'title' => Yii::t('app', 'Update'),
-                                'data-pjax' => '0',
-                                'data-toggle' => 'tooltip',
-                                'class' => 'edit-model',
-                            ]);
-                        },
-                ],
-                'width',
-                'height',
-                [
-                    'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{update} {delete} {images}',
-                    'buttons' => [
-                        'images' => function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
-                                'title' => Yii::t('app', Yii::t('app', 'Images')),
-                                'data-pjax' => '0',
-                                'data-toggle' => 'tooltip',
-                            ]);
-                        },
-                    ],
-                    'urlCreator' => function($action, $model, $key, $index) {
-
-                        if ($action == 'images')
-                        {
-                            $params = is_array($key) ? $key : ['sliderId' => (int) $key];
-                            $params[0] = $action . '/index';
-                        } else {
-                            $params = is_array($key) ? $key : ['id' => (int) $key];
-                            $params[0] = 'default' . '/' . $action;
-                        }
-
-                        return Url::toRoute($params);
-                    },
-                    'updateOptions'=>['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
-                    'deleteOptions'=>['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
-                    'width' => '100px',
-                ],
-            ],
-            'responsive' => true,
-            'floatHeader' => true,
-            'floatHeaderOptions' => ['scrollingTop' => 88],
-            'hover' => true,
-        ];
-
         return $this->render('index', [
-            'gridView' => $gridView,
-        ]);
-    }
-
-    /**
-     * Displays a single Slider model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -127,6 +51,7 @@ class DefaultController extends Controller
     public function actionCreate()
     {
         $model = new Slider();
+        $model->loadDefaultValues();
 
         $post = Yii::$app->request->post();
 

@@ -3,9 +3,7 @@ Sliders module for Yii 2
 
 Docs
 -----
-- [Installation admin module](https://github.com/mdmsoft/yii2-admin)
-- [Installation user module](https://github.com/infoweb-internet-solutions/yii2-cms-user)
-- [Installation migration utitlity](https://github.com/c006/yii2-migration-utility)
+- [Installation images module](https://github.com/CostaRico/yii2-images)
 
 Installation
 ------------
@@ -26,6 +24,26 @@ or add
 
 to the require section of your `composer.json` file.
 
+
+Once the extension is installed, simply modify your backend configuration as follows:
+
+```php
+return [
+    ...
+    'modules' => [
+        ...
+        'yii2images' => [
+           'class' => 'rico\yii2images\Module',
+           'imagesStorePath' => 'img/store', //path to origin images
+           'imagesCachePath' => 'img/cache', //path to resized copies
+           'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
+           'placeHolderPath' => '@infoweb/sliders/img/placeHolder.png',
+        ],
+    ],
+];
+```
+
+Create "img" folder in web root manually and set 777 permissions
 
 Usage
 -----

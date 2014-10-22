@@ -56,7 +56,7 @@ class Slider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'width'], 'required'],
+            [['name'], 'required'],
             [['width', 'height', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];

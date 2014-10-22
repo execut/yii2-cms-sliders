@@ -11,15 +11,11 @@ use infoweb\sliders\models\ImageSearch;
 use infoweb\sliders\models\Slider;
 use infoweb\sliders\models\UploadForm;
 
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-use yii\helpers\Html;
 use yii\web\UploadedFile;
-use yii\helpers\Url;
-use kartik\grid\GridView;
 
 class ImagesController extends BaseImagesController
 {
@@ -86,52 +82,9 @@ class ImagesController extends BaseImagesController
         $searchModel = new ImageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
 
-        $gridView = [
-            'id' => 'gridview',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                [
-                    'class' => '\kartik\grid\CheckboxColumn'
-                ],
-                [
-                    'format' => 'raw',
-                    'label' => Yii::t('app', 'Image'),
-                    'hAlign' => GridView::ALIGN_CENTER,
-                    'value' => function($data) { return $data->image; },
-                    'width' => '96px',
-
-                ],
-                [
-                    'class' => '\kartik\grid\DataColumn',
-                    'label' => Yii::t('app', 'Name'),
-                    'value' => function($data) { return $data->name; },
-                    'vAlign' => GridView::ALIGN_MIDDLE,
-                ],
-                [
-                    'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{update} {delete}',
-                    'urlCreator' => function($action, $model, $key, $index) {
-
-                        $params = is_array($key) ? $key : ['id' => (int) $key, 'sliderId' => Yii::$app->request->get('sliderId')];
-                        $params[0] = $action;
-
-
-                        return Url::toRoute($params);
-                    },
-                    'updateOptions'=>['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
-                    'deleteOptions'=>['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
-                    'width' => '100px',
-                ],
-            ],
-            'responsive' => true,
-            'floatHeader' => true,
-            'floatHeaderOptions' => ['scrollingTop' => 88],
-            'hover' => true,
-        ];
-
         return $this->render('index', [
-            'gridView' => $gridView,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'slider' => $slider,
         ]);
     }
@@ -347,13 +300,6 @@ class ImagesController extends BaseImagesController
 
         return $data;
 
-    }
-
-    public function actionFileManager()
-    {
-        return $this->render('filemanager', [
-            //'model' => $model,
-        ]);
     }
 
     /**
