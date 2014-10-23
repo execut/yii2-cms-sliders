@@ -8,21 +8,15 @@
 
 namespace infoweb\sliders\behaviors;
 
-use rico\yii2images\models\Image;
+use infoweb\sliders\models\Image;
 
 use yii;
-use yii\base\Behavior;
-use yii\db\ActiveRecord;
-use rico\yii2images\models;
 use yii\helpers\BaseFileHelper;
-use rico\yii2images\ModuleTrait;
 use yii\db\Query;
 
 class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
 {
-
     /**
-     *
      * Method copies image file to module store and creates db record.
      *
      * @param $absolutePath
@@ -67,19 +61,25 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
         unlink($absolutePath);
 
         if($this->modelClass === null) {
-            $image = new models\Image;
+            $image = new Image;
         }else{
             $image = new ${$this->modelClass}();
         }
         $image->itemId = $this->owner->id;
         $image->filePath = $pictureSubDir . '/' . $pictureFileName;
-        $image->modelName = $this->getModule()->getShortClass($this->owner);
+        $modelName = $this->getModule()->getShortClass($this->owner);
+        $image->modelName = $modelName;
 
         $image->urlAlias = $this->getAlias($image);
 
         // Custom
         $nameWithoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $pictureFileName);
         $image->name = $nameWithoutExt;
+        // Get the highest position
+        // @todo Create function
+        $query = (new Query)->select('MAX(`position`)')->from(Image::tableName())->where(['modelName' => $modelName]);
+        $command = $query->createCommand();
+        $image->position = $command->queryOne(\PDO::FETCH_COLUMN)+1;
 
         if(!$image->save()){
             return false;
@@ -134,10 +134,98 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
      */
     private function getAlias()
     {
-        $aliasWords = $this->getAliasString();
         $imagesCount = count($this->owner->getImages());
 
         return $this->getImage()->name . '-' . intval($imagesCount + 1);
     }
+
+    /**
+     * Returns model images
+     * First image alwats must be main image
+     * @return array|yii\db\ActiveRecord[]
+     */
+    public function getImages()
+    {
+        $finder = $this->getImagesFinder();
+
+        $imageQuery = Image::find()
+            ->where($finder);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'id' => SORT_ASC]);
+
+        $imageRecords = $imageQuery->all();
+        if(!$imageRecords){
+            return [$this->getModule()->getPlaceHolder()];
+        }
+        return $imageRecords;
+    }
+
+    /**
+     * Remove all model images
+     */
+    public function removeImages()
+    {
+        $images = $this->owner->getImages();
+        if (count($images) < 1) {
+            return true;
+        } else {
+            foreach ($images as $image) {
+                $this->owner->removeImage($image);
+            }
+        }
+    }
+
+    /**
+     * returns main model image
+     * @return array|null|ActiveRecord
+     */
+    public function getImage()
+    {
+        $finder = $this->getImagesFinder(['isMain' => 1]);
+        $imageQuery = Image::find()
+            ->where($finder);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'id' => SORT_ASC]);
+
+        $img = $imageQuery->one();
+        if(!$img){
+            return $this->getModule()->getPlaceHolder();
+        }
+
+        return $img;
+    }
+
+    private function getImagesFinder($additionWhere = false)
+    {
+        $base = [
+            'itemId' => $this->owner->id,
+            'modelName' => $this->getModule()->getShortClass($this->owner)
+        ];
+
+        if ($additionWhere) {
+            $base = \yii\helpers\BaseArrayHelper::merge($base, $additionWhere);
+        }
+
+        return $base;
+    }
+
+    /**
+     * Returns model images
+     * First image alwats must be main image
+     * @return array|yii\db\ActiveRecord[]
+     */
+    public function clearCache()
+    {
+        $finder = $this->getImagesFinder();
+
+        $imageQuery = Image::find()
+            ->where($finder);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'id' => SORT_ASC]);
+
+        $imageRecords = $imageQuery->all();
+        if(!$imageRecords){
+            return [$this->getModule()->getPlaceHolder()];
+        }
+        return $imageRecords;
+    }
+
 
 }

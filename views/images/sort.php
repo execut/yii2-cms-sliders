@@ -5,7 +5,7 @@ use infoweb\sliders\ImageAsset;
 ImageAsset::register($this);
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Slider */
+/* @var $model infoweb\sliders\models\Slider */
 
 $this->title = Yii::t('app', 'Sort');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sliders'), 'url' => ['/sliders']];
@@ -29,7 +29,7 @@ $this->render('_growl_messages');
     <div class="row" id="sortable">
         <?php foreach ($images as $key => $image): ?>
         <div id="<?= $image->id ?>" class="handle sortable-container col-xs-4 col-md-2">
-            <img class="img-responsive center-block" src="<?php echo Yii::$app->request->baseUrl . '/' . $image->getPath('240x240'); ?>">
+            <img class="img-responsive center-block" src="<?php echo $image->getUrl('240x240'); ?>">
         </div>
         <?php endforeach; ?>
     </div>

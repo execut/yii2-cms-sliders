@@ -80,7 +80,7 @@ $this->render('_growl_messages');
                 'format' => 'raw',
                 'label' => Yii::t('app', 'Image'),
                 'hAlign' => GridView::ALIGN_CENTER,
-                'value' => function($data) { return $data->image; },
+                'value' => function($data) { return $data->popupImage; },
                 'width' => '96px',
 
             ],

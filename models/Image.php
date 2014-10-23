@@ -6,7 +6,7 @@ use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\Url;
+use yii\helpers\BaseFileHelper;
 
 class Image extends BaseImage
 {
@@ -35,7 +35,8 @@ class Image extends BaseImage
         ]);
     }
 
-    public function getUrl($size = false){
+    public function getUrl($size = false)
+    {
         $urlSize = ($size) ? '_'.$size : '';
         $base = $this->getModule()->getCachePath();
         $sub = $this->getSubDur();
@@ -56,7 +57,8 @@ class Image extends BaseImage
         return $httpPath;
     }
 
-    public function getPath($size = false){
+    public function getPath($size = false)
+    {
         $urlSize = ($size) ? '_'.$size : '';
         $base = $this->getModule()->getCachePath();
         $sub = $this->getSubDur();
@@ -98,7 +100,20 @@ class Image extends BaseImage
         return $this->hasMany(ImageLang::className(), ['image_id' => 'id']);
     }
 
-    public function getImage() {
+    public function getPopupImage()
+    {
         return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . $this->getUrl('1000x') . '"><img src="' . $this->getUrl('80x80') . '" /></a>';
+    }
+
+    public function clearCache()
+    {
+        $subDir = $this->getSubDur();
+
+        $dirToRemove = $this->getModule()->getCachePath().DIRECTORY_SEPARATOR.$subDir;
+
+        // Custom
+        BaseFileHelper::removeDirectory($dirToRemove);
+
+        return true;
     }
 }
