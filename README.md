@@ -25,6 +25,14 @@ or add
 to the require section of your `composer.json` file.
 
 
+Add these aliases:
+
+```
+Yii::setAlias('uploads', 'http://' . $_SERVER['HTTP_HOST'] . '/www.vangompelrenette.be/frontend/web/uploads');
+Yii::setAlias('uploadsBaseUrl', dirname(dirname(__DIR__)) . '/frontend/web/uploads');
+```
+
+
 Once the extension is installed, simply modify your backend configuration as follows:
 
 ```php
@@ -35,8 +43,8 @@ return [
         'yii2images' => [
             'class' => 'rico\yii2images\Module',
             // @frontend/web/
-            'imagesStorePath' => 'uploads/store', //path to origin images
-            'imagesCachePath' => 'uploads/cache', //path to resized copies
+            'imagesStorePath' => '@uploadsBaseUrl/img/store', //path to origin images
+            'imagesCachePath' => '@uploadsBaseUrl/img/cache', //path to resized copies
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
             'placeHolderPath' => '@infoweb/sliders/assets/img/placeHolder.png',
         ],
