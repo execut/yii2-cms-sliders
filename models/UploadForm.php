@@ -20,6 +20,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
+            [['image'], 'safe'],
             [['image'], 'image', 'skipOnEmpty' => false, /*'extensions' => 'jpg, png', 'mimeTypes' => 'image/jpeg, image/png',*/],
         ];
     }

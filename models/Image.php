@@ -35,6 +35,22 @@ class Image extends BaseImage
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => Yii::t('app', 'Image'),
+            'filePath' => 'File Path',
+            'itemId' => 'Item ID',
+            'isMain' => 'Is Main',
+            'modelName' => 'Model Name',
+            'urlAlias' => 'Url Alias',
+        ];
+    }
+
     public function getUrl($size = false)
     {
         $urlSize = ($size) ? '_'.$size : '';
