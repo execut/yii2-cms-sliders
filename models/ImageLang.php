@@ -73,7 +73,7 @@ class ImageLang extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'image_id' => Yii::t('infoweb/sliders', 'Image ID'),
             'alt' => Yii::t('app', 'Alt'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),

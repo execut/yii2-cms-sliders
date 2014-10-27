@@ -89,7 +89,7 @@ class ImagesController extends BaseImagesController
                     count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded'
                 );
             } else {
-                Yii::$app->session->setFlash('image-success', Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
+                Yii::$app->session->setFlash('image-success', Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
             }
 
             return $this->redirect(['index?sliderId=' . $post['sliderId']]);
@@ -237,7 +237,7 @@ class ImagesController extends BaseImagesController
 
             Image::deleteAll(['id' => $ids]);
 
-            $data['message'] = Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
+            $data['message'] = Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
             $data['status'] = 1;
         }
 
@@ -247,7 +247,7 @@ class ImagesController extends BaseImagesController
     public function actionMultipleDeleteConfirmMessage()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $message = Yii::t('app', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
+        $message = Yii::t('infoweb/sliders', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
         return $message;
     }
 
@@ -303,7 +303,7 @@ class ImagesController extends BaseImagesController
             Yii::$app->response->format = Response::FORMAT_JSON;
 
             // Success
-            $data['message'] = Yii::t('app', 'Positions successfully updated');
+            $data['message'] = Yii::t('app', 'The sorting was successfully updated');
             $data['status'] = 1;
         }
 
@@ -323,7 +323,7 @@ class ImagesController extends BaseImagesController
         if (($model = Image::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested image does not exist.');
+            throw new NotFoundHttpException(Yii::t('app', 'The requested item does not exist'));
         }
     }
 

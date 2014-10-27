@@ -1,6 +1,7 @@
 <?php
 namespace infoweb\sliders\models;
 
+use Yii;
 use rico\yii2images\models\Image as BaseImage;
 use dosamigos\translateable\TranslateableBehavior;
 use yii\helpers\ArrayHelper;
@@ -43,11 +44,11 @@ class Image extends BaseImage
         return [
             'id' => 'ID',
             'name' => Yii::t('app', 'Image'),
-            'filePath' => 'File Path',
-            'itemId' => 'Item ID',
-            'isMain' => 'Is Main',
-            'modelName' => 'Model Name',
-            'urlAlias' => 'Url Alias',
+            'filePath' => Yii::t('infoweb/sliders', 'File Path'),
+            'itemId' => Yii::t('infoweb/sliders', 'Item ID'),
+            'isMain' => Yii::t('infoweb/sliders', 'Main image'),
+            'modelName' => Yii::t('infoweb/sliders', 'Attached to'),
+            'urlAlias' => Yii::t('infoweb/sliders', 'Url alias'),
         ];
     }
 
@@ -64,7 +65,7 @@ class Image extends BaseImage
             $this->createVersion($origin, $size);
 
             if(!file_exists($filePath)){
-                throw new \Exception('Problem with image creating.');
+                throw new \Exception(Yii::t('infoweb/sliders', 'The image does not exist'));
             }
         }
 
@@ -87,7 +88,7 @@ class Image extends BaseImage
             $this->createVersion($origin, $size);
 
             if(!file_exists($filePath)){
-                throw new \Exception('Problem with image creating.');
+                throw new \Exception(Yii::t('infoweb/sliders', 'The image does not exist'));
             }
         }
 

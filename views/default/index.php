@@ -12,7 +12,7 @@ SliderAsset::register($this);
 /* @var $searchModel infoweb\sliders\models\SearchSlider */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sliders');
+$this->title = Yii::t('infoweb/sliders', 'Sliders');
 $this->params['breadcrumbs'][] = $this->title;
 
 // Render growl messages
@@ -26,7 +26,7 @@ $this->render('_growl_messages');
 
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-            'modelClass' => 'Slider',
+            'modelClass' => Yii::t('infoweb/sliders', 'Slider'),
         ]), ['create'], ['class' => 'btn btn-success']) ?>
 
         <?= Html::button(Yii::t('app', 'Delete'), [
@@ -72,7 +72,7 @@ $this->render('_growl_messages');
                 'buttons' => [
                     'images' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
-                            'title' => Yii::t('app', Yii::t('app', 'Images')),
+                            'title' => Yii::t('infoweb/sliders', 'Images'),
                             'data-pjax' => '0',
                             'data-toggle' => 'tooltip',
                         ]);

@@ -28,14 +28,12 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
     {
         if(!preg_match('#http#', $absolutePath)){
             if (!file_exists($absolutePath)) {
-                throw new \Exception('File not exist! :'.$absolutePath);
+                throw new \Exception(Yii::t('infoweb/sliders', 'File {path} does not exist!', ['path' => $absolutePath]));
             }
-        }else{
-            //nothing
         }
 
         if (!$this->owner->id) {
-            throw new \Exception('Owner must have id when you attach image!');
+            throw new \Exception(Yii::t('infoweb/sliders', 'There was a problem while attaching the image'));
         }
 
         // Custom
@@ -54,7 +52,7 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
         copy($absolutePath, $newAbsolutePath);
 
         if (!file_exists($absolutePath)) {
-            throw new \Exception('Cant copy file! ' . $absolutePath . ' to ' . $newAbsolutePath);
+            throw new \Exception(Yii::t('infoweb/sliders', 'There was a problem while uploading the file'));
         }
 
         // Custom
@@ -117,7 +115,7 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
         if ($this->createAliasMethod) {
             $string = $this->owner->{$this->createAliasMethod}();
             if (!is_string($string)) {
-                throw new \Exception("Image's url must be string!");
+                throw new \Exception(Yii::t('infoweb/sliders', 'Invalid image alias'));
             } else {
                 return $string;
             }

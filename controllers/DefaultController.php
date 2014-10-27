@@ -63,7 +63,7 @@ class DefaultController extends Controller
         } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             // Set flash message
-            Yii::$app->session->setFlash('slider-success', Yii::t('app', "{modelClass} {modelName} successfully created", ['modelClass' => 'Slider', 'modelName' => $model->name]));
+            Yii::$app->session->setFlash('slider-success', Yii::t('app', "{item} successfully created", ['item' => $model->name]));
 
             if (isset($post['close'])) {
                 return $this->redirect(['index']);
@@ -102,7 +102,7 @@ class DefaultController extends Controller
         } elseif ($model->load($post) && $model->save()) {
 
             // Set flash message
-            Yii::$app->session->setFlash('slider-success', Yii::t('app', "{modelClass} {modelName} successfully updated", ['modelClass' => 'Slider', 'modelName' => $model->name]));
+            Yii::$app->session->setFlash('slider-success', Yii::t('app', "{item} successfully updated", ['item' => $model->name]));
 
             if (isset($post['close'])) {
                 return $this->redirect(['index']);
