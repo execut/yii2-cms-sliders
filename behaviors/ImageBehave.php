@@ -225,5 +225,25 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
         return $imageRecords;
     }
 
+    /**
+     *
+     * removes concrete model's image
+     * @param Image $img
+     * @throws \Exception
+     */
+    public function removeImage($img)
+    {
+        $img = new Image;
+        $img->clearCache();
+
+        $storePath = $this->getModule()->getStorePath();
+
+        $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;
+        if (preg_match('@\.@', $fileToRemove) and is_file($fileToRemove)) {
+            unlink($fileToRemove);
+        }
+        $img->delete();
+    }
+
 
 }
