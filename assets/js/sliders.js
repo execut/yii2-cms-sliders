@@ -6,6 +6,11 @@ $(function() {
         '<span data-growl="title"></span>' +
         '<span data-growl="message"></span>' +
         '<a href="#" data-growl="url"></a></div>';
+    
+    // Set eventhandlers
+    $(document)
+        .on('click', '.select-on-check-all', toggleCheckboxes)
+        .on('click', '#gridview-container .kv-row-select input', toggleSelectAll);
 
     $(document).on('click', '#batch-delete', function (event) {
         event.preventDefault();
@@ -69,20 +74,30 @@ $(function() {
             }
         });
     });
-
-    $(document).on('change', "#gridview-container .kv-row-select input, .select-on-check-all", function (event) {
-
-        //var itemsChecked = $('#gridview-container').yiiGridView('getSelectedRows').length;
-        var itemsChecked = $('#gridview-container .kv-row-select input:checked').length;
-
-        var disabled = true;
-
-        if (itemsChecked > 0) {
-            disabled = false;
-        }
-
-        $('#batch-delete').attr('disabled', disabled);
-
-    });
-
 });
+
+function toggleCheckboxes(e) {
+    // Check / uncheck all checkboxes
+    $('#gridview-container .kv-row-select input').prop('checked', ($(this).is(':checked')) ? true : false);
+    
+    toggleDeleteBtn();    
+}
+
+function toggleSelectAll(e) {
+    // If one checkbox is not checked, the "select-all" checkbox should also be no longer checked
+    if (!$(this).is(':checked'))
+        $('.select-on-check-all').prop('checked', false);
+        
+    toggleDeleteBtn();        
+}
+
+function toggleDeleteBtn() {
+    console.log($('#gridview-container .kv-row-select input:checked').length);
+    console.log($('.select-on-check-all:checked').length);
+    // If at least one checkbox is checked the delete button has to be shown
+    if ($('#gridview-container .kv-row-select input:checked').length || $('.select-on-check-all:checked').length) {
+        $('#batch-delete').show();    
+    } else {
+        $('#batch-delete').hide();
+    }     
+}
