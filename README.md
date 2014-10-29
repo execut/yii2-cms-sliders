@@ -33,7 +33,7 @@ Yii::setAlias('uploadsBaseUrl', dirname(dirname(__DIR__)) . '/frontend/web/uploa
 ```
 
 
-Once the extension is installed, simply modify your backend configuration as follows:
+Once the extension is installed, simply modify your common configuration as follows:
 
 ```php
 return [
