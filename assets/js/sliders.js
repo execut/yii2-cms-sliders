@@ -92,8 +92,7 @@ function toggleSelectAll(e) {
 }
 
 function toggleDeleteBtn() {
-    console.log($('#gridview-container .kv-row-select input:checked').length);
-    console.log($('.select-on-check-all:checked').length);
+
     // If at least one checkbox is checked the delete button has to be shown
     if ($('#gridview-container .kv-row-select input:checked').length || $('.select-on-check-all:checked').length) {
         $('#batch-delete').show();    

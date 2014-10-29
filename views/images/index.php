@@ -25,7 +25,7 @@ $this->render('_growl_messages');
 
 <div class="images-index">
 
-    <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => 'Images'] ) ?></h1>
+    <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => strtolower(Yii::t('infoweb/sliders', 'Images'))] ) ?></h1>
 
     <?php $form = ActiveForm::begin(['action' => 'upload', 'options' => [ 'class' => 'sliders-upload-form', 'enctype' => 'multipart/form-data']]); ?>
 
@@ -51,20 +51,25 @@ $this->render('_growl_messages');
 
     <?php ActiveForm::end(); ?>
 
-    <h1><?= $this->title ?></h1>
-    <p>
-        <?= Html::a(Yii::t('app', 'Sort {modelClass}', [
-            'modelClass' => 'Images',
-        ]), ['sort?sliderId=' . $slider->id], ['class' => 'btn btn-success']) ?>
+    <?php // Title ?>
+    <h1>
+        <?= $this->title ?>
+        <?php // Buttons ?>
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Sort {modelClass}', [
+                'modelClass' => Yii::t('infoweb/sliders', 'Images'),
+            ]), ['sort?sliderId=' . $slider->id], ['class' => 'btn btn-success']) ?>
+    
+            <?= Html::button(Yii::t('app', 'Delete'), [
+                'class' => 'btn btn-danger',
+                'id' => 'batch-delete',
+                'data-pjax' => 0,
+                'style' => 'display: none;'
+            ]) ?>    
+        </div>
+    </h1>
 
-        <?= Html::button(Yii::t('app', 'Delete'), [
-            'class' => 'btn btn-danger',
-            'disabled' => 'true',
-            'id' => 'batch-delete',
-            'data-pjax' => 0,
-        ]) ?>
-    </p>
-
+    <?php // Gridview ?>
     <?php Pjax::begin([
         'id'=>'grid-pjax'
     ]); ?>
