@@ -22,21 +22,26 @@ $this->render('_growl_messages');
 
 <div class="slider-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // Title ?>
+    <h1>
+        <?= Html::encode($this->title) ?>
+        <?php // Buttons ?>
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app', 'Create {modelClass}', [
+                'modelClass' => Yii::t('infoweb/sliders', 'Slider'),
+            ]), ['create'], ['class' => 'btn btn-success']) ?>
+    
+            <?= Html::button(Yii::t('app', 'Delete'), [
+                'class' => 'btn btn-danger',
+                //'disabled' => 'true',
+                'id' => 'batch-delete',
+                'data-pjax' => 0,
+                'style' => 'display: none;'
+            ]) ?>   
+        </div>
+    </h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-            'modelClass' => Yii::t('infoweb/sliders', 'Slider'),
-        ]), ['create'], ['class' => 'btn btn-success']) ?>
-
-        <?= Html::button(Yii::t('app', 'Delete'), [
-            'class' => 'btn btn-danger',
-            'disabled' => 'true',
-            'id' => 'batch-delete',
-            'data-pjax' => 0,
-        ]) ?>
-    </p>
-
+    <?php // Gridview ?>
     <?php Pjax::begin([
         'id'=>'grid-pjax'
     ]); ?>
