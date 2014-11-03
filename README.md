@@ -54,6 +54,11 @@ return [
 
 Create "img" folder in web root manually and set 777 permissions
 
+Import the translations and use category 'infoweb/sliders':
+```
+yii i18n/import @infoweb/sliders/messages
+```
+
 Usage
 -----
 
