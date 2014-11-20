@@ -233,16 +233,18 @@ class ImageBehave extends \rico\yii2images\behaviors\ImageBehave
      */
     public function removeImage($img)
     {
-        $img = new Image;
-        $img->clearCache();
-
-        $storePath = $this->getModule()->getStorePath();
-
-        $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;
-        if (preg_match('@\.@', $fileToRemove) and is_file($fileToRemove)) {
-            unlink($fileToRemove);
+        if (!$img->isNewRecord) {
+            $imgInfoweb = Image::findOne(['id' => $img->id]);
+            $imgInfoweb->clearCache();
+    
+            $storePath = $this->getModule()->getStorePath();
+    
+            $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;
+            if (preg_match('@\.@', $fileToRemove) and is_file($fileToRemove)) {
+                unlink($fileToRemove);
+            }
+            $img->delete();
         }
-        $img->delete();
     }
 
 

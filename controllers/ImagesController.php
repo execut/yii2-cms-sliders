@@ -69,7 +69,7 @@ class ImagesController extends BaseImagesController
                 $_model->image = $image;
 
                 if ($_model->validate()) {
-                    $path = \Yii::getAlias('@uploadsBaseUrl') . "/img/{$_model->image->baseName}.{$_model->image->extension}";
+                    $path = \Yii::getAlias('@uploadsBasePath') . "/img/{$_model->image->baseName}.{$_model->image->extension}";
 
                     $_model->image->saveAs($path);
 

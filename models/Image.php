@@ -69,7 +69,7 @@ class Image extends BaseImage
             }
         }
 
-        $httpPath = \Yii::getAlias('@uploads').'/img/cache/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);
+        $httpPath = \Yii::getAlias('@uploadsBaseUrl').'/img/cache/'.$sub.'/'.$this->urlAlias.$urlSize.'.'.pathinfo($origin, PATHINFO_EXTENSION);
 
         return $httpPath;
     }
@@ -122,14 +122,15 @@ class Image extends BaseImage
         return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . $this->getUrl('1000x') . '"><img src="' . $this->getUrl('80x80') . '" /></a>';
     }
 
-    public function clearCache()
-    {
+    public function clearCache(){
         $subDir = $this->getSubDur();
 
         $dirToRemove = $this->getModule()->getCachePath().DIRECTORY_SEPARATOR.$subDir;
+        
+        if(preg_match('/'.preg_quote($this->modelName, '/').'/', $dirToRemove)){
+            BaseFileHelper::removeDirectory($dirToRemove);
 
-        // Custom
-        BaseFileHelper::removeDirectory($dirToRemove);
+        }
 
         return true;
     }
