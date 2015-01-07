@@ -6,7 +6,7 @@ use kartik\widgets\TouchSpin;
 use kartik\widgets\Growl;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Slider */
+/* @var $model infoweb\sliders\models\Slider */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

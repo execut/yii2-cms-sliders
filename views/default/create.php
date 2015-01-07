@@ -9,9 +9,9 @@ SliderAsset::register($this);
 /* @var $model app\models\Slider */
 
 $this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Slider',
+    'modelClass' => Yii::t('infoweb/sliders', 'Slider'),
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sliders'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Sliders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // Render growl messages

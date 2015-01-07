@@ -56,9 +56,10 @@ class Slider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'width'], 'required'],
+            [['name', 'width', 'height'], 'required'],
             [['width', 'height', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+            [['width', 'height'], 'default', 'value' => 0]
         ];
     }
 
@@ -70,8 +71,8 @@ class Slider extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'width' => Yii::t('app', 'Width'),
-            'height' => Yii::t('app', 'Height'),
+            'width' => Yii::t('infoweb/sliders', 'Width'),
+            'height' => Yii::t('infoweb/sliders', 'Height'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

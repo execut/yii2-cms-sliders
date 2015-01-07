@@ -15,29 +15,25 @@ use yii\bootstrap\Tabs;
         'id' => 'page-partial-form',
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
-        /*'afterValidateAll' => 'function($form, jqXHR, textStatus) {
-            // The first tab that contains errors has to be shown
-            if ($(".has-error").length) {
-                $("a[href=#"+$(".has-error").parents(".tab-pane").attr("id")+"]").tab("show");
-            }
-        }'*/
     ]);
     // Initialize the tabs
-    $tabs = [
-        [
-            'label' => Yii::t('app', 'General'),
-            'content' => $this->render('_default_tab', ['model' => $model, 'form' => $form]),
-            'active' => true,
-        ]
-    ];
+    $tabs = [];
+    
     // Add the language tabs
     foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
         $tabs[] = [
             'label' => $languageName,
             'content' => $this->render('_language_tab', ['model' => $model->getTranslation($languageId), 'form' => $form]),
-            //'active' => ($languageId == Yii::$app->language) ? true : false
+            'active' => ($languageId == Yii::$app->language) ? true : false
         ];
     }
+    
+    // Add the default tab
+    $tabs[] = [
+        'label' => Yii::t('app', 'General'),
+        'content' => $this->render('_default_tab', ['model' => $model, 'form' => $form]),
+    ];
+    
     // Display the tabs
     echo Tabs::widget(['items' => $tabs]);
     ?>

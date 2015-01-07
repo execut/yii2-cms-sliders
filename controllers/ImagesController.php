@@ -11,15 +11,11 @@ use infoweb\sliders\models\ImageSearch;
 use infoweb\sliders\models\Slider;
 use infoweb\sliders\models\UploadForm;
 
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-use yii\helpers\Html;
 use yii\web\UploadedFile;
-use yii\helpers\Url;
-use kartik\grid\GridView;
 
 class ImagesController extends BaseImagesController
 {
@@ -30,6 +26,7 @@ class ImagesController extends BaseImagesController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'upload' => ['post']
                 ],
             ],
         ];
@@ -45,7 +42,23 @@ class ImagesController extends BaseImagesController
 
         $slider = Slider::findOne($get['sliderId']);
 
+        $searchModel = new ImageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'slider' => $slider,
+        ]);
+    }
+
+    public function actionUpload()
+    {
         if (Yii::$app->request->isPost) {
+
+            $post = Yii::$app->request->post();
+
+            $slider = Slider::findOne($post['sliderId']);
 
             $form = new UploadForm;
             $images = UploadedFile::getInstances($form, 'images');
@@ -56,14 +69,12 @@ class ImagesController extends BaseImagesController
                 $_model->image = $image;
 
                 if ($_model->validate()) {
-
-                    $path = "img/store/{$_model->image->baseName}.{$_model->image->extension}";
+                    $path = \Yii::getAlias('@uploadsBasePath') . "/img/{$_model->image->baseName}.{$_model->image->extension}";
 
                     $_model->image->saveAs($path);
 
                     // Attach image to model
                     $slider->attachImage($path);
-
 
                 } else {
                     foreach ($_model->getErrors('image') as $error) {
@@ -78,63 +89,14 @@ class ImagesController extends BaseImagesController
                     count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded'
                 );
             } else {
-                Yii::$app->session->setFlash('image-success', Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
+                Yii::$app->session->setFlash('image-success', Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
             }
 
+            return $this->redirect(['index?sliderId=' . $post['sliderId']]);
+
         }
-
-        $searchModel = new ImageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
-
-        $gridView = [
-            'id' => 'gridview',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                [
-                    'class' => '\kartik\grid\CheckboxColumn'
-                ],
-                [
-                    'format' => 'raw',
-                    'label' => Yii::t('app', 'Image'),
-                    'hAlign' => GridView::ALIGN_CENTER,
-                    'value' => function($data) { return $data->image; },
-                    'width' => '96px',
-
-                ],
-                [
-                    'class' => '\kartik\grid\DataColumn',
-                    'label' => Yii::t('app', 'Name'),
-                    'value' => function($data) { return $data->name; },
-                    'vAlign' => GridView::ALIGN_MIDDLE,
-                ],
-                [
-                    'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{update} {delete}',
-                    'urlCreator' => function($action, $model, $key, $index) {
-
-                        $params = is_array($key) ? $key : ['id' => (int) $key, 'sliderId' => Yii::$app->request->get('sliderId')];
-                        $params[0] = $action;
-
-
-                        return Url::toRoute($params);
-                    },
-                    'updateOptions'=>['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
-                    'deleteOptions'=>['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
-                    'width' => '100px',
-                ],
-            ],
-            'responsive' => true,
-            'floatHeader' => true,
-            'floatHeaderOptions' => ['scrollingTop' => 88],
-            'hover' => true,
-        ];
-
-        return $this->render('index', [
-            'gridView' => $gridView,
-            'slider' => $slider,
-        ]);
     }
+
     /**
      * Displays a single Image model.
      * @param string $id
@@ -275,7 +237,7 @@ class ImagesController extends BaseImagesController
 
             Image::deleteAll(['id' => $ids]);
 
-            $data['message'] = Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
+            $data['message'] = Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
             $data['status'] = 1;
         }
 
@@ -285,7 +247,7 @@ class ImagesController extends BaseImagesController
     public function actionMultipleDeleteConfirmMessage()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $message = Yii::t('app', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
+        $message = Yii::t('infoweb/sliders', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
         return $message;
     }
 
@@ -341,19 +303,12 @@ class ImagesController extends BaseImagesController
             Yii::$app->response->format = Response::FORMAT_JSON;
 
             // Success
-            $data['message'] = Yii::t('app', 'Positions successfully updated');
+            $data['message'] = Yii::t('app', 'The sorting was successfully updated');
             $data['status'] = 1;
         }
 
         return $data;
 
-    }
-
-    public function actionFileManager()
-    {
-        return $this->render('filemanager', [
-            //'model' => $model,
-        ]);
     }
 
     /**
@@ -368,7 +323,7 @@ class ImagesController extends BaseImagesController
         if (($model = Image::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested image does not exist.');
+            throw new NotFoundHttpException(Yii::t('app', 'The requested item does not exist'));
         }
     }
 

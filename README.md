@@ -3,9 +3,7 @@ Sliders module for Yii 2
 
 Docs
 -----
-- [Installation admin module](https://github.com/mdmsoft/yii2-admin)
-- [Installation user module](https://github.com/infoweb-internet-solutions/yii2-cms-user)
-- [Installation migration utitlity](https://github.com/c006/yii2-migration-utility)
+- [Installation images module](https://github.com/CostaRico/yii2-images)
 
 Installation
 ------------
@@ -26,6 +24,40 @@ or add
 
 to the require section of your `composer.json` file.
 
+
+Add these aliases:
+
+```
+Yii::setAlias('uploads', 'http://' . $_SERVER['HTTP_HOST'] . '/www.vangompelrenette.be/frontend/web/uploads');
+Yii::setAlias('uploadsBaseUrl', dirname(dirname(__DIR__)) . '/frontend/web/uploads');
+```
+
+
+Once the extension is installed, simply modify your common configuration as follows:
+
+```php
+return [
+    ...
+    'modules' => [
+        ...
+        'yii2images' => [
+            'class' => 'rico\yii2images\Module',
+            // @frontend/web/
+            'imagesStorePath' => '@uploadsBaseUrl/img/store', //path to origin images
+            'imagesCachePath' => '@uploadsBaseUrl/img/cache', //path to resized copies
+            'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
+            'placeHolderPath' => '@infoweb/sliders/assets/img/placeHolder.png',
+        ],
+    ],
+];
+```
+
+Create "img" folder in web root manually and set 777 permissions
+
+Import the translations and use category 'infoweb/sliders':
+```
+yii i18n/import @infoweb/sliders/messages
+```
 
 Usage
 -----
