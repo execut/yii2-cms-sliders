@@ -5,8 +5,6 @@ namespace infoweb\sliders\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use infoweb\sliders\models\Slider;
-
 /**
  * SearchSlider represents the model behind the search form about `app\models\Slider`.
  */

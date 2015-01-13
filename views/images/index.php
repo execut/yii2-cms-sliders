@@ -5,7 +5,7 @@ use kartik\widgets\FileInput;
 use yii\widgets\ActiveForm;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use infoweb\sliders\ImageAsset;
+use infoweb\cms\assets\ImageAsset;
 use yii\helpers\Url;
 
 ImageAsset::register($this);

@@ -1,6 +1,6 @@
 <?php
 
-namespace infoweb\sliders;
+namespace infoweb\sliders\assets;
 
 use yii\web\AssetBundle as AssetBundle;
 
@@ -16,9 +16,6 @@ class SliderAsset extends AssetBundle
     public $depends = [
         'backend\assets\AppAsset',
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
         'yii\jui\JuiAsset',
-        'infoweb\sliders\BootboxAsset',
-        'infoweb\sliders\BootstrapGrowlAsset',
     ];
 }

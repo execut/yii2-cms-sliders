@@ -6,10 +6,10 @@ use rico\yii2images\controllers\ImagesController as BaseImagesController;
 
 use Yii;
 
-use infoweb\sliders\models\Image;
-use infoweb\sliders\models\ImageSearch;
+use infoweb\cms\models\Image;
+use infoweb\cms\models\ImageSearch;
 use infoweb\sliders\models\Slider;
-use infoweb\sliders\models\UploadForm;
+use infoweb\cms\models\ImageUploadForm;
 
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -60,12 +60,12 @@ class ImagesController extends BaseImagesController
 
             $slider = Slider::findOne($post['sliderId']);
 
-            $form = new UploadForm;
+            $form = new ImageUploadForm;
             $images = UploadedFile::getInstances($form, 'images');
 
             foreach ($images as $k => $image) {
 
-                $_model = new UploadForm();
+                $_model = new ImageUploadForm();
                 $_model->image = $image;
 
                 if ($_model->validate()) {
@@ -95,18 +95,6 @@ class ImagesController extends BaseImagesController
             return $this->redirect(['index?sliderId=' . $post['sliderId']]);
 
         }
-    }
-
-    /**
-     * Displays a single Image model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**

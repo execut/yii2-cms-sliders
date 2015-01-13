@@ -27,7 +27,5 @@ class m141021_075310_init extends Migration
     public function down()
     {
         $this->dropTable('slider');
-
-        return false;
     }
 }

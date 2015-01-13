@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use infoweb\sliders\ImageAsset;
+use infoweb\cms\assets\ImageAsset;
 ImageAsset::register($this);
 
 /* @var $this yii\web\View */

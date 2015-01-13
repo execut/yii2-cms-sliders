@@ -35,7 +35,7 @@ class Slider extends \yii\db\ActiveRecord
     {
         return [
             'image' => [
-                'class' => 'infoweb\sliders\behaviors\ImageBehave',
+                'class' => 'infoweb\cms\behaviors\ImageBehave',
             ],
             'timestamp' => [
                 'class' => TimestampBehavior::className(),

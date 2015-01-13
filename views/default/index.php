@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use infoweb\sliders\SliderAsset;
+use infoweb\sliders\assets\SliderAsset;
 use yii\helpers\Url;
 
 SliderAsset::register($this);

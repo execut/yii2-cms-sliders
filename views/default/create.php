@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use infoweb\sliders\SliderAsset;
+use infoweb\sliders\assets\SliderAsset;
 
 SliderAsset::register($this);
 
