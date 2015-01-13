@@ -28,7 +28,7 @@ to the require section of your `composer.json` file.
 Add these aliases:
 
 ```
-Yii::setAlias('uploads', 'http://' . $_SERVER['HTTP_HOST'] . '/www.vangompelrenette.be/frontend/web/uploads');
+Yii::setAlias('uploads', 'http://' . $_SERVER['HTTP_HOST'] . '/www.domain.be/frontend/web/uploads');
 Yii::setAlias('uploadsBaseUrl', dirname(dirname(__DIR__)) . '/frontend/web/uploads');
 ```
 
