@@ -38,7 +38,7 @@ $this->render('_growl_messages');
     } ?>
 
     <?= FileInput::widget([
-        'name' => 'UploadForm[images][]',
+        'name' => 'ImageUploadForm[images][]',
         'options' => [
             'multiple' => true,
             //'accept' => 'image/*',
