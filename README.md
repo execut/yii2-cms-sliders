@@ -3,7 +3,7 @@ Sliders module for Yii 2
 
 Docs
 -----
-- [Installation images module](https://github.com/CostaRico/yii2-images)
+- [Installation cms module](https://github.com/infoweb-internet-solutions/yii2-cms/blob/master/README.md)
 
 Installation
 ------------
@@ -12,27 +12,18 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-```
+```bash
 php composer.phar require --prefer-dist infoweb-internet-solutions/yii2-cms-sliders "*"
 ```
 
 or add
 
-```
+```json
 "infoweb-internet-solutions/yii2-cms-sliders": "*"
 ```
 
 to the require section of your `composer.json` file.
-
-
-Add these aliases:
-
-```
-Yii::setAlias('uploads', 'http://' . $_SERVER['HTTP_HOST'] . '/www.domain.be/frontend/web/uploads');
-Yii::setAlias('uploadsBaseUrl', dirname(dirname(__DIR__)) . '/frontend/web/uploads');
-```
-
-
+  
 Once the extension is installed, simply modify your common configuration as follows:
 
 ```php
@@ -52,26 +43,23 @@ return [
 ];
 ```
 
-Create "img" folder in web root manually and set 777 permissions
+Run this migration
 
-Import the translations and use category 'infoweb/sliders':
-```
-yii i18n/import @infoweb/sliders/messages
-```
-
-Usage
------
-
-Once the extension is installed run this migration
-
-```
+```bash
 yii migrate/up --migrationPath=@infoweb/sliders/migrations
 ```
 
-and add this to your config
+Import the translations
+```bash
+yii i18n/import @infoweb/sliders/messages
+```
 
-````
-'sliders' => [
-    'class' => 'infoweb\sliders\Module',
+Add to `backend/config/main.php`
+````php
+'modules' => [
+	...
+	'sliders' => [
+    	'class' => 'infoweb\sliders\Module',
+	],
 ],
 ````

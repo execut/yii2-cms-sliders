@@ -1,12 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use infoweb\sliders\SliderAsset;
+use infoweb\sliders\assets\SliderAsset;
 
 SliderAsset::register($this);
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Slider */
 
 $this->title = Yii::t('app', 'Update {modelClass}', [
     'modelClass' => Yii::t('infoweb/sliders', 'Slider'),

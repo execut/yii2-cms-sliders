@@ -8,11 +8,10 @@ class SliderAsset extends AssetBundle
 {
     public $sourcePath = '@infoweb/sliders/assets/';
 
-    public $css = [
-    ];
     public $js = [
         'js/sliders.js',
     ];
+
     public $depends = [
         'backend\assets\AppAsset',
         'yii\web\YiiAsset',

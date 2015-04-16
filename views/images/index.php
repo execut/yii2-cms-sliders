@@ -27,7 +27,7 @@ $this->render('_growl_messages');
 
     <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => strtolower(Yii::t('infoweb/sliders', 'Images'))] ) ?></h1>
 
-    <?php $form = ActiveForm::begin(['action' => 'upload', 'options' => [ 'class' => 'sliders-upload-form', 'enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['action' => 'upload', 'options' => [ 'class' => 'image-upload-form', 'enctype' => 'multipart/form-data']]); ?>
 
     <?= Html::hiddenInput('sliderId', $slider->id) ?>
 
@@ -115,6 +115,7 @@ $this->render('_growl_messages');
         'floatHeader' => true,
         'floatHeaderOptions' => ['scrollingTop' => 88],
         'hover' => true,
+        'export' => false,
     ]) ?>
     <?php Pjax::end(); ?>
 
