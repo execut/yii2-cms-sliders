@@ -51,10 +51,6 @@ $this->render('_growl_messages');
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'class' => '\kartik\grid\CheckboxColumn',
-                'options' => ['class' => 'test']
-            ],
-            [
                 'class' => '\kartik\grid\DataColumn',
                 'attribute' => 'name',
                 'format' => 'raw',
