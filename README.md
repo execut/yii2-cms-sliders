@@ -61,5 +61,22 @@ Add to `backend/config/main.php`
 	'sliders' => [
     	'class' => 'infoweb\sliders\Module',
 	],
+	...
+	'cms' => [
+		...
+		'sideBarItems'  => [
+			'modules'   => [
+				...
+				[
+					'label'     => 'Sliders',
+					'i18nGroup' => 'infoweb/sliders',
+					'url'       => '/sliders/slider/index',
+					'authItem'  => 'showSlidersModule',
+					'activeUrl' => 'sliders',
+				],
+			],
+		],
+	],
+	...
 ],
 ````
