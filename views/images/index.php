@@ -7,6 +7,7 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use infoweb\cms\assets\ImageAsset;
 use yii\helpers\Url;
+use infoweb\sliders\models\Slider;
 
 ImageAsset::register($this);
 
@@ -85,7 +86,9 @@ $this->render('_growl_messages');
                 'format' => 'raw',
                 'label' => Yii::t('app', 'Image'),
                 'hAlign' => GridView::ALIGN_CENTER,
-                'value' => function($data) { return $data->popupImage; },
+                'value' => function($data) {
+                    $slider = Slider::findOne($data->itemId);
+                    return $slider->getPopupImage($data->id); },
                 'width' => '96px',
 
             ],

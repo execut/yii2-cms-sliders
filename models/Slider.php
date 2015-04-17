@@ -2,6 +2,7 @@
 
 namespace infoweb\sliders\models;
 
+use infoweb\cms\models\Image;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -48,6 +49,17 @@ class Slider extends \yii\db\ActiveRecord
                 },
             ],
         ];
+    }
+
+    /**
+     * Get the popup image for images gridview
+     *
+     * @return string
+     */
+    public function getPopupImage($id = null)
+    {
+        $image = Image::findOne($id);
+        return '<a class="fancybox" data-pjax="0" rel="fancybox" href="' . $image->getUrl("{$this->width}x{$this->height}") . '"><img src="' . $image->getUrl('80x80') . '" /></a>';
     }
 
     /**
