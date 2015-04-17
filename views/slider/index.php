@@ -80,17 +80,11 @@ $this->render('_growl_messages');
                     },
                 ],
                 'urlCreator' => function($action, $model, $key, $index) {
-
-                    if ($action == 'images')
-                    {
-                        $params = is_array($key) ? $key : ['sliderId' => (int) $key];
-                        $params[0] = $action . '/index';
+                    if ($action == 'images')  {
+                        return Url::toRoute([$action . '/index', 'sliderId' => $key]);
                     } else {
-                        $params = is_array($key) ? $key : ['id' => (int) $key];
-                        $params[0] = 'default' . '/' . $action;
+                        return Url::toRoute([$action, 'id' => $key]);
                     }
-
-                    return Url::toRoute($params);
                 },
                 'updateOptions' => ['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
                 'deleteOptions' => ['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],

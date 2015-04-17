@@ -70,7 +70,7 @@ class Slider extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('infoweb/cms', 'Name'),
             'width' => Yii::t('infoweb/sliders', 'Width'),
             'height' => Yii::t('infoweb/sliders', 'Height'),
             'created_at' => Yii::t('app', 'Created At'),

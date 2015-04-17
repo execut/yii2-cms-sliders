@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 /**
  * SliderController implements the CRUD actions for Slider model.
  */
-class DefaultController extends Controller
+class SliderController extends Controller
 {
     public function behaviors()
     {

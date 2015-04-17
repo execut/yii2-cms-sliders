@@ -14,8 +14,8 @@ ImageAsset::register($this);
 /* @var $slider infoweb\sliders\models\Slider */
 
 $this->title = Yii::t('infoweb/sliders', 'Images');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Sliders'), 'url' => ['/sliders']];
-$this->params['breadcrumbs'][] = ['label' => $slider->name, 'url' => ['/sliders/default/update', 'id' => $slider->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Sliders'), 'url' => ['slider/index']];
+$this->params['breadcrumbs'][] = ['label' => $slider->name, 'url' => ['slider/update', 'id' => $slider->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 // Render growl messages
