@@ -119,6 +119,7 @@ $this->render('_growl_messages');
         'floatHeaderOptions' => ['scrollingTop' => 88],
         'hover' => true,
         'export' => false,
+        'resizableColumns' => false,
     ]) ?>
     <?php Pjax::end(); ?>
 
