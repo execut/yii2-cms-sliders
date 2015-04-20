@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 // Render growl messages
 $this->render('_growl_messages');
 
+
 ?>
 
 <div class="slider-index">

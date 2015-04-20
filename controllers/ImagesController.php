@@ -126,7 +126,9 @@ class ImagesController extends BaseImagesController
                 $translationModel = $model->getTranslation(Yii::$app->language);
                 $translationModel->alt = $post['ImageLang'][Yii::$app->language]['alt'];
                 $translationModel->title = $post['ImageLang'][Yii::$app->language]['title'];
+                $translationModel->subtitle = $post['ImageLang'][Yii::$app->language]['subtitle'];
                 $translationModel->description = $post['ImageLang'][Yii::$app->language]['description'];
+                $translationModel->url = $post['ImageLang'][Yii::$app->language]['url'];
 
                 // Validate the translation model
                 $translationValidation = ActiveForm::validate($translationModel);
@@ -163,7 +165,9 @@ class ImagesController extends BaseImagesController
                     $model->language = $languageId;
                     $model->alt = $post['ImageLang'][$languageId]['alt'];
                     $model->title = $post['ImageLang'][$languageId]['title'];
+                    $model->subtitle = $post['ImageLang'][$languageId]['subtitle'];
                     $model->description = $post['ImageLang'][$languageId]['description'];
+                    $model->url = $post['ImageLang'][$languageId]['url'];
 
                     if (!$model->saveTranslation()) {
                         return $this->render('update', [

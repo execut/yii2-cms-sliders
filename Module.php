@@ -8,6 +8,8 @@ class Module extends \yii\base\Module
 {
     public $controllerNamespace = 'infoweb\sliders\controllers';
 
+    public $options = [];
+
     public function init()
     {
         parent::init();
