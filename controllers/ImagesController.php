@@ -124,11 +124,7 @@ class ImagesController extends BaseImagesController
 
                 // Populate the translation model for the primary language
                 $translationModel = $model->getTranslation(Yii::$app->language);
-                $translationModel->alt = $post['ImageLang'][Yii::$app->language]['alt'];
-                $translationModel->title = $post['ImageLang'][Yii::$app->language]['title'];
-                $translationModel->subtitle = $post['ImageLang'][Yii::$app->language]['subtitle'];
-                $translationModel->description = $post['ImageLang'][Yii::$app->language]['description'];
-                $translationModel->url = $post['ImageLang'][Yii::$app->language]['url'];
+                $translationModel->load($post['ImageLang'][Yii::$app->language], '');
 
                 // Validate the translation model
                 $translationValidation = ActiveForm::validate($translationModel);
@@ -151,23 +147,15 @@ class ImagesController extends BaseImagesController
                 // Wrap the everything in a database transaction
                 $transaction = Yii::$app->db->beginTransaction();
 
-                // Save the main model
-                /*
-                if (!$model->load($post) || !$model->save()) {
-                    return $this->render('update', [
-                        'model' => $model,
-                        'slider' => $slider,
-                    ]);
-                }*/
-
                 // Save the translation models
                 foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
-                    $model->language = $languageId;
-                    $model->alt = $post['ImageLang'][$languageId]['alt'];
-                    $model->title = $post['ImageLang'][$languageId]['title'];
-                    $model->subtitle = $post['ImageLang'][$languageId]['subtitle'];
-                    $model->description = $post['ImageLang'][$languageId]['description'];
-                    $model->url = $post['ImageLang'][$languageId]['url'];
+                    $data = $post['ImageLang'][$languageId];
+                    $model->language    = $languageId;
+                    $model->alt         = $data['alt']; 
+                    $model->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
+                    $model->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
+                    $model->description = ($this->module->enableImageDescription) ? $data['description'] : '';
+                    $model->url         = ($this->module->enableImageUrl) ? $data['url'] : '';                    
 
                     if (!$model->saveTranslation()) {
                         return $this->render('update', [

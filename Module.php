@@ -21,6 +21,30 @@ class Module extends \yii\base\Module
      * @var int
      */
     public $defaultHeigth = 200;
+    
+    /**
+     * Enable the 'title' attribute for image's
+     * @var boolean
+     */
+    public $enableImageTitle = false;
+    
+    /**
+     * Enable the 'subtitle' attribute for image's
+     * @var boolean
+     */
+    public $enableImageSubTitle = false;
+    
+    /**
+     * Enable the 'description' attribute for image's
+     * @var boolean
+     */
+    public $enableImageDescription = false;
+    
+    /**
+     * Enable the 'url' attribute for image's
+     * @var boolean
+     */
+    public $enableImageUrl = false;
 
     public function init()
     {
