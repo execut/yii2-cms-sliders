@@ -100,15 +100,31 @@ $this->render('_growl_messages');
             ],
             [
                 'class' => 'kartik\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update} {active} {delete}',
                 'urlCreator' => function($action, $model, $key, $index) {
 
                     $params = is_array($key) ? $key : ['id' => (int) $key, 'sliderId' => Yii::$app->request->get('sliderId')];
                     $params[0] = $action;
 
-
                     return Url::toRoute($params);
                 },
+                'buttons' => [
+                    'active' => function ($url, $model) {
+                        if ($model->active == true) {
+                            $icon = 'glyphicon-eye-open';
+                        } else {
+                            $icon = 'glyphicon-eye-close';
+                        }
+
+                        return Html::a('<span class="glyphicon ' . $icon . '"></span>', $url, [
+                            'title' => Yii::t('app', 'Toggle active'),
+                            'data-pjax' => '0',
+                            'data-toggleable' => 'true',
+                            'data-toggle-id' => $model->id,
+                            'data-toggle' => 'tooltip',
+                        ]);
+                    },
+                ],
                 'updateOptions'=>['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
                 'deleteOptions'=>['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
                 'width' => '100px',

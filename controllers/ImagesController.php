@@ -26,6 +26,7 @@ class ImagesController extends BaseImagesController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'active' => ['post'],
                     'upload' => ['post']
                 ],
             ],
@@ -146,6 +147,16 @@ class ImagesController extends BaseImagesController
             } else {
                 // Wrap the everything in a database transaction
                 $transaction = Yii::$app->db->beginTransaction();
+                
+                // Update the image model
+                $model->active = $post['Image']['active'];
+                
+                if (!$model->save()) {
+                    return $this->render('update', [
+                        'model' => $model,
+                        'slider' => $slider,
+                    ]);
+                }
 
                 // Save the translation models
                 foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
@@ -229,6 +240,19 @@ class ImagesController extends BaseImagesController
         Yii::$app->response->format = Response::FORMAT_JSON;
         $message = Yii::t('infoweb/sliders', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
         return $message;
+    }
+    
+    /**
+     * Set active state
+     * @param string $id
+     * @return mixed
+     */
+    public function actionActive()
+    {
+        $model = $this->findModel(Yii::$app->request->post('id'));
+        $model->active = ($model->active == 1) ? 0 : 1;
+
+        return $model->save();
     }
 
     /**
