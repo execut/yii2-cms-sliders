@@ -52,6 +52,10 @@ class SliderController extends Controller
     {
         $model = new Slider();
         $model->loadDefaultValues();
+        
+        // Set default values
+        $model->width = $this->module->defaultWith;
+        $model->height = $this->module->defaultHeigth;
 
         $post = Yii::$app->request->post();
 
