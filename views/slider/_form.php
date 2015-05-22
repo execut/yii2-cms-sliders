@@ -24,31 +24,40 @@ use kartik\widgets\Growl;
         'autofocus' => true,
     ]) ?>
 
-    <?= $form->field($model, 'width')->widget(TouchSpin::classname(), [
-        'options' => [
-            'maxlength' => 5,
-            'tabindex' => 2,
-        ],
-        'pluginOptions' => [
-            'min' => 0,
-            'max' => 99999,
-            'step' => 1,
-            'postfix' => 'px'
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'height')->widget(TouchSpin::classname(), [
-        'options' => [
-            'maxlength' => 5,
-            'tabindex' => 3,
-        ],
-        'pluginOptions' => [
-            'min' => 0,
-            'max' => 99999,
-            'step' => 1,
-            'postfix' => 'px'
-        ],
-    ]); ?>
+    <div class="row">
+        <div class="col-sm-2">
+            <?= $form->field($model, 'width')->widget(TouchSpin::classname(), [
+                'options' => [
+                    'maxlength' => 5,
+                    'tabindex' => 2,
+                ],
+                'pluginOptions' => [
+                    'min' => 0,
+                    'max' => 1200,
+                    'step' => 1,
+                    'postfix' => 'px',
+                    'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
+                    'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
+                ],
+            ]); ?>    
+        </div>
+        <div class="col-sm-2">
+            <?= $form->field($model, 'height')->widget(TouchSpin::classname(), [
+                'options' => [
+                    'maxlength' => 5,
+                    'tabindex' => 3,
+                ],
+                'pluginOptions' => [
+                    'min' => 0,
+                    'max' => 99999,
+                    'step' => 1,
+                    'postfix' => 'px',
+                    'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
+                    'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
+                ],
+            ]); ?>    
+        </div>
+    </div>
 
     <div class="buttons form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), [
