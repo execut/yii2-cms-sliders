@@ -20,7 +20,7 @@ class Module extends \yii\base\Module
      * The default height of a slider
      * @var int
      */
-    public $defaultHeigth = 200;
+    public $defaultHeight = 200;
     
     /**
      * Enable the 'title' attribute for image's
