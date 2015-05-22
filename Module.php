@@ -14,13 +14,13 @@ class Module extends \yii\base\Module
      * The default with of a slider
      * @var int
      */
-    public $defaultWith;
+    public $defaultWith = 800;
     
     /**
      * The default height of a slider
      * @var int
      */
-    public $defaultHeigth;
+    public $defaultHeigth = 200;
 
     public function init()
     {
