@@ -26,6 +26,10 @@ class Slider extends Widget
     
     public function run()
     {
+        if ($this->id == null) {
+            return null;
+        }
+
         $slider = SliderItem::findOne($this->id);
 
         $items = [];
