@@ -15,5 +15,4 @@ return [
     'Url alias' => 'Url alias',
     'Width' => 'Breedte',
     '{n, plural, =1{Image} other{# images}} successfully uploaded' => '{n, plural, =1{Image} other{# images}} succesvol geupload',
-    '{n, plural, =1{image} other{# images}} successfully uploaded' => '{n, plural, =1{image} other{# images}} succesvol geupload',
 ];
