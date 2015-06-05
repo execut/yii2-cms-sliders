@@ -9,6 +9,8 @@ use yii\helpers\Html;
 class Slider extends Widget
 {
     public $template = 'slider';
+    public $showIndicators = true;
+    public $options = [];
     public $controls = '';
     public $id = 0;
     
@@ -41,10 +43,10 @@ class Slider extends Widget
             $items[] = [
                 'content' => Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]),
                 'caption' => $image->title,
-                'options' => [],
+                'options' => $this->options,
             ];
         }
 
-        return $this->render($this->template, ['items' => $items, 'controls' => $this->controls]);
+        return $this->render($this->template, ['items' => $items, 'controls' => $this->controls, 'showIndicators' => $this->showIndicators]);
     }
 }
