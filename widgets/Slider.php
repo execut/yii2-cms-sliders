@@ -23,7 +23,10 @@ class Slider extends Widget
             ];
         }
     }
-    
+
+    /**
+     * @return null|string
+     */
     public function run()
     {
         if ($this->id == null) {
