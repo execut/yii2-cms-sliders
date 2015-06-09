@@ -39,7 +39,7 @@ class Slider extends Widget
 
         $items = [];
 
-        foreach ($slider->getImages() as $image) {
+        foreach ($slider->getImages(['active' => 1]) as $image) {
             $items[] = [
                 'content' => Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]),
                 'caption' => $image->title,
