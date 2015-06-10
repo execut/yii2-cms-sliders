@@ -3,4 +3,5 @@
     'items' => $items,
     'controls' => $controls,
     'showIndicators' => $showIndicators,
+    'options' => ['class' => 'slide'],
 ]); ?>
