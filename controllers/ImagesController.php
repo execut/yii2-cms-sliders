@@ -44,7 +44,7 @@ class ImagesController extends BaseImagesController
         $slider = Slider::findOne($get['sliderId']);
 
         $searchModel = new ImageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $slider->id, Slider::className());
 
         return $this->render('index', [
             'searchModel' => $searchModel,
