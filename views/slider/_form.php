@@ -33,7 +33,7 @@ use kartik\widgets\Growl;
                 ],
                 'pluginOptions' => [
                     'min' => 0,
-                    'max' => 1200,
+                    'max' => 1920,
                     'step' => 1,
                     'postfix' => 'px',
                     'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
