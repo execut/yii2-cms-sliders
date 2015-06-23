@@ -25,7 +25,7 @@ use kartik\widgets\Growl;
     ]) ?>
 
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-12 col-md-4 col-lg-3">
             <?= $form->field($model, 'width')->widget(TouchSpin::classname(), [
                 'options' => [
                     'maxlength' => 5,
@@ -41,7 +41,7 @@ use kartik\widgets\Growl;
                 ],
             ]); ?>    
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-12 col-md-4 col-lg-3">
             <?= $form->field($model, 'height')->widget(TouchSpin::classname(), [
                 'options' => [
                     'maxlength' => 5,
