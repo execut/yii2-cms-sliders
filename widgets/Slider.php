@@ -10,6 +10,10 @@ class Slider extends Widget
 {
     public $template = 'slider';
     public $showIndicators = true;
+    public $containerOptions = [
+        'class' => 'slide',
+        'data-interval' => 8000
+    ];
     public $options = [];
     public $controls = '';
     public $id = 0;
@@ -47,6 +51,6 @@ class Slider extends Widget
             ];
         }
 
-        return $this->render($this->template, ['items' => $items, 'controls' => $this->controls, 'showIndicators' => $this->showIndicators]);
+        return $this->render($this->template, ['items' => $items, 'controls' => $this->controls, 'showIndicators' => $this->showIndicators, 'containerOptions' => $this->containerOptions]);
     }
 }
