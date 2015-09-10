@@ -47,6 +47,12 @@ $this->render('_growl_messages');
         'pluginOptions' => [
             'previewFileType' => 'any',
             'mainClass' => 'input-group-lg',
+            'browseLabel' => Yii::t('infoweb/sliders', 'Browse'),
+            'removeLabel' => Yii::t('infoweb/sliders', 'Remove'),
+            'removeTitle' => Yii::t('infoweb/sliders', 'Remove selected files'),
+            'uploadLabel' => Yii::t('infoweb/sliders', 'Upload'),
+            'uploadTitle' => Yii::t('infoweb/sliders', 'Upload selected files'),
+            'cancelLabel' => Yii::t('infoweb/sliders', 'Cancel'),
         ],
     ]) ?>
 
