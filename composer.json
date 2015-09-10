@@ -22,8 +22,9 @@
     ],
     "minimum-stability": "dev",
 	"require": {
-	   "yiisoft/yii2": "*",
-        "infoweb-internet-solutions/yii2-cms": "@stable"
+	    "yiisoft/yii2": "*",
+        "infoweb-internet-solutions/yii2-cms": "@stable",
+        "bower-asset/growl": "@stable"
 	},
 	"autoload": {
 		"psr-4": {
