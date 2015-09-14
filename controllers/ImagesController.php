@@ -90,7 +90,11 @@ class ImagesController extends BaseImagesController
                     count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded'
                 );
             } else {
-                Yii::$app->session->setFlash('image-success', Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully uploaded', ['n' => count($images)]));
+                Yii::$app->session->setFlash('image-success', Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully uploaded', [
+                    'Image' => Yii::t('infoweb/sliders', 'Image'),
+                    'images' => Yii::t('infoweb/sliders', 'images'),
+                    'n' => count($images)]
+                ));
             }
 
             return $this->redirect(['index?sliderId=' . $post['sliderId']]);
@@ -204,7 +208,7 @@ class ImagesController extends BaseImagesController
         // Set flash message
         $model->language = Yii::$app->language;
 
-        Yii::$app->getSession()->setFlash('image-success', Yii::t('app', '{item} has been deleted', ['item' => $model->name]));
+        Yii::$app->getSession()->setFlash('image-success', Yii::t('app', '"{item}" has been deleted', ['item' => $model->name]));
 
         return $this->redirect(['index?sliderId=' . $sliderId]);
     }
@@ -228,7 +232,11 @@ class ImagesController extends BaseImagesController
 
             Image::deleteAll(['id' => $ids]);
 
-            $data['message'] = Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully deleted', ['n' => count($ids)]);
+            $data['message'] = Yii::t('infoweb/sliders', '{n, plural, =1{Image} other{# images}} successfully deleted', [
+                'n' => count($ids),
+                'Image' => Yii::t('infoweb/sliders', 'Image'),
+                'images' => Yii::t('infoweb/sliders', 'images'),
+            ]);
             $data['status'] = 1;
         }
 
@@ -238,7 +246,11 @@ class ImagesController extends BaseImagesController
     public function actionMultipleDeleteConfirmMessage()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $message = Yii::t('infoweb/sliders', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', ['n' => Yii::$app->request->post('ids')]);
+        $message = Yii::t('infoweb/sliders', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', [
+            'n' => Yii::$app->request->post('ids'),
+            'this image' => Yii::t('infoweb/sliders', 'this image'),
+            'images' => Yii::t('infoweb/sliders', 'images'),
+        ]);
         return $message;
     }
     
