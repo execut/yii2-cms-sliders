@@ -47,12 +47,12 @@ $this->render('_growl_messages');
         'pluginOptions' => [
             'previewFileType' => 'any',
             'mainClass' => 'input-group-lg',
-            'browseLabel' => Yii::t('infoweb/sliders', 'Browse'),
-            'removeLabel' => Yii::t('infoweb/sliders', 'Remove'),
-            'removeTitle' => Yii::t('infoweb/sliders', 'Remove selected files'),
-            'uploadLabel' => Yii::t('infoweb/sliders', 'Upload'),
-            'uploadTitle' => Yii::t('infoweb/sliders', 'Upload selected files'),
-            'cancelLabel' => Yii::t('infoweb/sliders', 'Cancel'),
+            'browseLabel' => Yii::t('app', 'Browse'),
+            'removeLabel' => Yii::t('app', 'Remove'),
+            'removeTitle' => Yii::t('app', 'Remove selected files'),
+            'uploadLabel' => Yii::t('app', 'Upload'),
+            'uploadTitle' => Yii::t('app', 'Upload selected files'),
+            'cancelLabel' => Yii::t('app', 'Cancel'),
         ],
     ]) ?>
 
