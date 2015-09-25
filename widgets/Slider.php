@@ -43,7 +43,14 @@ class Slider extends Widget
 
         $items = [];
 
-        foreach ($slider->getImages(['active' => 1]) as $image) {
+        $images = $slider->getImages(['active' => 1]);
+
+        if (count($images) <= 1) {
+            $this->controls = false;
+            $this->showIndicators = false;
+        }
+
+        foreach ($images as $image) {
             $items[] = [
                 'content' => Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]),
                 'caption' => $image->title,
