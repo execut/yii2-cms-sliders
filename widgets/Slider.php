@@ -15,7 +15,7 @@ class Slider extends Widget
         'data-interval' => 8000
     ];
     public $options = [];
-    public $controls = '';
+    public $controls = null;
     public $id = 0;
     
     public function init()

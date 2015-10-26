@@ -12,7 +12,7 @@ $this->title = Yii::t('app', 'Update {modelClass}', [
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Sliders'), 'url' => ['slider/index']];
 $this->params['breadcrumbs'][] = ['label' => $slider->name, 'url' => ['slider/update', 'id' => $slider->id]];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Images'), 'url' => ['index', 'sliderId' => $slider->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Images'), 'url' => ['index', 'sliderId' => $slider->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

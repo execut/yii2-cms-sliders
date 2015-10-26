@@ -14,7 +14,7 @@ ImageAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $slider infoweb\sliders\models\Slider */
 
-$this->title = Yii::t('infoweb/sliders', 'Images');
+$this->title = Yii::t('app', 'Images');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('infoweb/sliders', 'Sliders'), 'url' => ['slider/index']];
 $this->params['breadcrumbs'][] = ['label' => $slider->name, 'url' => ['slider/update', 'id' => $slider->id]];
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,7 +26,7 @@ $this->render('_growl_messages');
 
 <div class="images-index">
 
-    <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => strtolower(Yii::t('infoweb/sliders', 'Images'))] ) ?></h1>
+    <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => strtolower(Yii::t('app', 'Images'))] ) ?></h1>
 
     <?php $form = ActiveForm::begin(['action' => 'upload', 'options' => [ 'class' => 'image-upload-form', 'enctype' => 'multipart/form-data']]); ?>
 
@@ -64,7 +64,7 @@ $this->render('_growl_messages');
         <?php // Buttons ?>
         <div class="pull-right">
             <?= Html::a(Yii::t('app', 'Sort {modelClass}', [
-                'modelClass' => Yii::t('infoweb/sliders', 'Images'),
+                'modelClass' => Yii::t('app', 'Images'),
             ]), ['sort?sliderId=' . $slider->id], ['class' => 'btn btn-success']) ?>
     
             <?= Html::button(Yii::t('app', 'Delete'), [
