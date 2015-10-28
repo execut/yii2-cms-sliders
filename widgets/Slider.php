@@ -22,7 +22,7 @@ class Slider extends Widget
     {
         parent::init();
 
-        if ($this->controls == null) {
+        if ($this->controls === null) {
             $this->controls = [
                 '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span>',
                 '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span>'
