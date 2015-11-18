@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 ?>
 <?= Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]) ?>
-<?php if ($image->title): ?>
+<?php if ($image->link): ?>
 <div class="content">
     <div class="title">
         <?= $image->title ?>
