@@ -170,7 +170,7 @@ class ImagesController extends BaseImagesController
                     $model->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
                     $model->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
                     $model->description = ($this->module->enableImageDescription) ? $data['description'] : '';
-                    $model->url         = ($this->module->enableImageUrl) ? $data['url'] : '';                    
+                    $model->link        = ($this->module->enableImageUrl) ? $data['link'] : '';
 
                     if (!$model->saveTranslation()) {
                         return $this->render('update', [

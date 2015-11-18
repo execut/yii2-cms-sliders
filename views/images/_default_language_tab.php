@@ -26,8 +26,8 @@
     <?php endif; ?>
 
     <?php if (Yii::$app->getModule('sliders')->enableImageUrl) : ?>
-    <?= $form->field($model, "[{$model->language}]url")->textInput([
-        'name' => "ImageLang[{$model->language}][url]",
+    <?= $form->field($model, "[{$model->language}]link")->textInput([
+        'name' => "ImageLang[{$model->language}][link]",
         'maxlength' => 255,
     ]) ?>
     <?php endif; ?>

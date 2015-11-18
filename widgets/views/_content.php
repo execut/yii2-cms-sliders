@@ -10,6 +10,6 @@ use yii\helpers\Html;
     <div class="description">
         &quot;<?= $image->description ?>&quot;
     </div>
-    <?= Html::a(Yii::t('frontend', 'More info'), $image->url, ['class' => 'btn btn-default']) ?>
+    <?= Html::a(Yii::t('frontend', 'More info'), $image->link, ['class' => 'btn btn-default']) ?>
 </div>
 <?php endif; ?>
