@@ -11,13 +11,13 @@ class Slider extends Widget
     public $template = 'slider';
     public $showIndicators = true;
     public $containerOptions = [
-        'class' => 'slide',
-        'data-interval' => 8000
+        'class'         => 'slide',
+        'data-interval' => 8000,
     ];
     public $options = [];
     public $controls = null;
     public $id = 0;
-    
+
     public function init()
     {
         parent::init();
@@ -25,7 +25,7 @@ class Slider extends Widget
         if ($this->controls === null) {
             $this->controls = [
                 '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span>',
-                '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span>'
+                '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span>',
             ];
         }
     }
@@ -52,9 +52,8 @@ class Slider extends Widget
 
         foreach ($images as $image) {
             $items[] = [
-                'content' => Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]),
-                'caption' => $image->title,
-                'options' => $this->options,
+                'content'     => $this->render('_content', ['image' => $image, 'slider' => $slider]),
+                'options'     => $this->options,
             ];
         }
 
