@@ -80,3 +80,26 @@ Add to `backend/config/main.php`
 	...
 ],
 ````
+
+Configuration
+-------------
+All available configuration options are listed below with their default values.
+___
+##### defaultWith (type: `integer`, default: `800`)
+The default with (in pixels) of a new slider.
+___
+##### defaultHeight (type: `integer`, default: `200`)
+The default height (in pixels) of a new slider.
+___
+##### enableImageTitle (type: `boolean`, default: `false`)
+If this option is set to `true`, it is possible to set a title for each image of a slider.
+___
+##### enableImageSubTitle (type: `boolean`, default: `false`)
+If this option is set to `true`, it is possible to set a subtitle for each image of a slider.
+___
+##### enableImageDescription (type: `boolean`, default: `false`)
+If this option is set to `true`, it is possible to set a description for each image of a slider.
+___
+##### enableImageUrl (type: `boolean`, default: `false`)
+If this option is set to `true`, it is possible to set an url for each image of a slider.
+___
