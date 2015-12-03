@@ -9,10 +9,12 @@ use yii\helpers\Html;
 class Slider extends Widget
 {
     public $template = 'slider';
+    public $templateSlide = '_content';
     public $showIndicators = true;
     public $containerOptions = [
         'class'         => 'slide',
         'data-interval' => 8000,
+        'id' => 'carousel',
     ];
     public $options = [];
     public $controls = null;
@@ -52,7 +54,7 @@ class Slider extends Widget
 
         foreach ($images as $image) {
             $items[] = [
-                'content'     => $this->render('_content', ['image' => $image, 'slider' => $slider]),
+                'content'     => $this->render($this->templateSlide, ['image' => $image, 'slider' => $slider]),
                 'options'     => $this->options,
             ];
         }
