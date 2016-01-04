@@ -19,6 +19,30 @@ class Slider extends Widget
     public $options = [];
     public $controls = null;
     public $id = 0;
+    /**
+     * Fixed height and images as background images
+     * Add additonal css width fixed height:
+     *
+        .carousel-inner {
+            height : x;
+        }
+
+        .carousel .item {
+            height : 100%
+        }
+
+        .carousel .fill {
+            width                   : 100%;
+            height                  : 100%;
+            background-position     : center;
+            -webkit-background-size : cover;
+            -moz-background-size    : cover;
+            background-size         : cover;
+            -o-background-size      : cover;
+        }
+     *
+     */
+    public $fixed = false;
 
     public function init()
     {
@@ -54,7 +78,7 @@ class Slider extends Widget
 
         foreach ($images as $image) {
             $items[] = [
-                'content'     => $this->render($this->templateSlide, ['image' => $image, 'slider' => $slider]),
+                'content'     => $this->render($this->templateSlide, ['image' => $image, 'slider' => $slider, 'fixed' => $this->fixed]),
                 'options'     => $this->options,
             ];
         }

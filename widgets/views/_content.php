@@ -1,7 +1,13 @@
 <?php
 use yii\helpers\Html;
 ?>
+
+<?php if ($fixed): ?>
+<div class="fill" style="background-image:url(<?= $image->getUrl("{$slider->width}x{$slider->height}") ?>);"></div>
+<?php else: ?>
 <?= Html::img($image->getUrl("{$slider->width}x{$slider->height}"), ['alt' => $image->alt, 'title' => $image->title]) ?>
+<?php endif; ?>
+
 <?php if ($image->link): ?>
 <div class="content">
     <div class="title">
