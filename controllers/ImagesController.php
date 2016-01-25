@@ -90,11 +90,9 @@ class ImagesController extends BaseImagesController
                     count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded'
                 );
             } else {
-                Yii::$app->session->setFlash('image-success', Yii::t('app', 'Images successfully uploaded', [
-                    'Image' => Yii::t('app', 'Image'),
-                    'images' => Yii::t('app', 'images'),
-                    'n' => count($images)]
-                ));
+                Yii::$app->session->setFlash('image-success', Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', [
+                    'n' => count($images),
+                ]));
             }
 
             return $this->redirect(['index?sliderId=' . $post['sliderId']]);
@@ -151,10 +149,10 @@ class ImagesController extends BaseImagesController
             } else {
                 // Wrap the everything in a database transaction
                 $transaction = Yii::$app->db->beginTransaction();
-                
+
                 // Update the image model
                 $model->active = $post['Image']['active'];
-                
+
                 if (!$model->save()) {
                     return $this->render('update', [
                         'model' => $model,
@@ -166,7 +164,7 @@ class ImagesController extends BaseImagesController
                 foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
                     $data = $post['ImageLang'][$languageId];
                     $model->language    = $languageId;
-                    $model->alt         = $data['alt']; 
+                    $model->alt         = $data['alt'];
                     $model->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
                     $model->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
                     $model->description = ($this->module->enableImageDescription) ? $data['description'] : '';
@@ -234,8 +232,6 @@ class ImagesController extends BaseImagesController
 
             $data['message'] = Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully deleted', [
                 'n' => count($ids),
-                'Image' => Yii::t('app', 'Image'),
-                'images' => Yii::t('app', 'images'),
             ]);
             $data['status'] = 1;
         }
@@ -248,12 +244,10 @@ class ImagesController extends BaseImagesController
         Yii::$app->response->format = Response::FORMAT_JSON;
         $message = Yii::t('app', 'Are you sure you want to delete {n, plural, =1{this image} other{# images}}?', [
             'n' => Yii::$app->request->post('ids'),
-            'this image' => Yii::t('app', 'this image'),
-            'images' => Yii::t('app', 'images'),
         ]);
         return $message;
     }
-    
+
     /**
      * Set active state
      * @param string $id
