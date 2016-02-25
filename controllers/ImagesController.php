@@ -2,20 +2,21 @@
 
 namespace infoweb\sliders\controllers;
 
-use rico\yii2images\controllers\ImagesController as BaseImagesController;
-
 use Yii;
-
-use infoweb\cms\models\Image;
-use infoweb\cms\models\ImageSearch;
-use infoweb\sliders\models\Slider;
-use infoweb\cms\models\ImageUploadForm;
-
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use yii\base\model;
+use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
+use rico\yii2images\controllers\ImagesController as BaseImagesController;
+use infoweb\cms\models\Image;
+use infoweb\cms\models\ImageSearch;
+use infoweb\cms\models\ImageLang;
+use infoweb\sliders\models\Slider;
+use infoweb\cms\models\ImageUploadForm;
 
 class ImagesController extends BaseImagesController
 {
@@ -113,7 +114,7 @@ class ImagesController extends BaseImagesController
         $slider = Slider::findOne($sliderId);
 
         // Load all the translations
-        $model->loadTranslations(array_keys(Yii::$app->params['languages']));
+        //$model->loadTranslations(array_keys(Yii::$app->params['languages']));
 
         if (Yii::$app->request->getIsPost()) {
 
@@ -125,21 +126,24 @@ class ImagesController extends BaseImagesController
                 // Populate the model with the POST data
                 $model->load($post);
 
-                // Populate the translation model for the primary language
-                $translationModel = $model->getTranslation(Yii::$app->language);
-                $translationModel->load($post['ImageLang'][Yii::$app->language], '');
-
-                // Validate the translation model
-                $translationValidation = ActiveForm::validate($translationModel);
-                $correctedTranslationValidation = [];
-
-                // Correct the keys of the validation
-                foreach($translationValidation as $k => $v) {
-                    $correctedTranslationValidation[str_replace('imagelang-', "imagelang-{$translationModel->language}-", $k)] = $v;
+                // Create an array of translation models and populate them
+                $translationModels = [];
+                // Insert
+                if ($model->isNewRecord) {
+                    foreach ($languages as $languageId => $languageName) {
+                        $translationModels[$languageId] = new ImageLang(['language' => $languageId]);
+                    }
+                // Update
+                } else {
+                    $translationModels = ArrayHelper::index($model->getTranslations()->all(), 'language');
                 }
+                Model::loadMultiple($translationModels, $post);
 
-                // Validate the model and primary translation model
-                $response = array_merge(ActiveForm::validate($model), $correctedTranslationValidation);
+                // Validate the model and translation
+                $response = array_merge(
+                    ActiveForm::validate($model),
+                    ActiveForm::validateMultiple($translationModels)
+                );
 
                 // Return validation in JSON format
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -147,11 +151,30 @@ class ImagesController extends BaseImagesController
 
                 // Normal request, save models
             } else {
-                // Wrap the everything in a database transaction
+                // Wrap everything in a database transaction
                 $transaction = Yii::$app->db->beginTransaction();
 
-                // Update the image model
-                $model->active = $post['Image']['active'];
+                // Validate the main model
+                if (!$model->load($post)) {
+                    return $this->render('update', [
+                        'model' => $model,
+                        'slider' => $slider,
+                    ]);
+                }
+                mail('fabio@infoweb.be', __FILE__.' => '.__LINE__, var_export(Yii::$app->request->post(StringHelper::basename(ImageLang::className()), []),true));
+                // Add the translations
+                foreach (Yii::$app->request->post(StringHelper::basename(ImageLang::className()), []) as $language => $data) {
+                    /*$model->translate($language)->alt         = $data['alt'];
+                    $model->translate($language)->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
+                    $model->translate($language)->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
+                    $model->translate($language)->description = ($this->module->enableImageDescription) ? $data['description'] : '';
+                    $model->translate($language)->link        = ($this->module->enableImageUrl) ? $data['link'] : '';*/
+                    foreach ($data as $attribute => $translation) {
+                        $model->translate($language)->$attribute = $translation;
+                    }
+
+                    mail('fabio@infoweb.be', __FILE__.' => '.__LINE__, var_export($model->translate($language)->attributes,true));
+                }
 
                 if (!$model->save()) {
                     return $this->render('update', [
@@ -160,23 +183,6 @@ class ImagesController extends BaseImagesController
                     ]);
                 }
 
-                // Save the translation models
-                foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
-                    $data = $post['ImageLang'][$languageId];
-                    $model->language    = $languageId;
-                    $model->alt         = $data['alt'];
-                    $model->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
-                    $model->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
-                    $model->description = ($this->module->enableImageDescription) ? $data['description'] : '';
-                    $model->link        = ($this->module->enableImageUrl) ? $data['link'] : '';
-
-                    if (!$model->saveTranslation()) {
-                        return $this->render('update', [
-                            'model' => $model,
-                            'slider' => $slider,
-                        ]);
-                    }
-                }
                 $transaction->commit();
 
                 // Set flash message
