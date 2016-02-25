@@ -7,7 +7,7 @@ $tabs = [];
 foreach (Yii::$app->params['languages'] as $languageId => $languageName) {
     $tabs[] = [
         'label'     => $languageName,
-        'content'   => $this->render('_default_language_tab', ['model' => $model->getTranslation($languageId), 'form' => $form]),
+        'content'   => $this->render('_default_language_tab', ['model' => $model->translate($languageId), 'form' => $form]),
         'active'    => ($languageId == Yii::$app->language) ? true : false
     ];
 }

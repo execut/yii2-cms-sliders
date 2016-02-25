@@ -109,12 +109,11 @@ class ImagesController extends BaseImagesController
      */
     public function actionUpdate($id, $sliderId)
     {
+        $languages = Yii::$app->params['languages'];
+
         $model = $this->findModel($id);
 
         $slider = Slider::findOne($sliderId);
-
-        // Load all the translations
-        //$model->loadTranslations(array_keys(Yii::$app->params['languages']));
 
         if (Yii::$app->request->getIsPost()) {
 
@@ -127,16 +126,7 @@ class ImagesController extends BaseImagesController
                 $model->load($post);
 
                 // Create an array of translation models and populate them
-                $translationModels = [];
-                // Insert
-                if ($model->isNewRecord) {
-                    foreach ($languages as $languageId => $languageName) {
-                        $translationModels[$languageId] = new ImageLang(['language' => $languageId]);
-                    }
-                // Update
-                } else {
-                    $translationModels = ArrayHelper::index($model->getTranslations()->all(), 'language');
-                }
+                $translationModels = ArrayHelper::index($model->getTranslations()->all(), 'language');
                 Model::loadMultiple($translationModels, $post);
 
                 // Validate the model and translation
@@ -161,22 +151,16 @@ class ImagesController extends BaseImagesController
                         'slider' => $slider,
                     ]);
                 }
-                mail('fabio@infoweb.be', __FILE__.' => '.__LINE__, var_export(Yii::$app->request->post(StringHelper::basename(ImageLang::className()), []),true));
+
                 // Add the translations
                 foreach (Yii::$app->request->post(StringHelper::basename(ImageLang::className()), []) as $language => $data) {
-                    /*$model->translate($language)->alt         = $data['alt'];
-                    $model->translate($language)->title       = ($this->module->enableImageTitle) ? $data['title'] : '';
-                    $model->translate($language)->subtitle    = ($this->module->enableImageSubTitle) ? $data['subtitle'] : '';
-                    $model->translate($language)->description = ($this->module->enableImageDescription) ? $data['description'] : '';
-                    $model->translate($language)->link        = ($this->module->enableImageUrl) ? $data['link'] : '';*/
                     foreach ($data as $attribute => $translation) {
                         $model->translate($language)->$attribute = $translation;
                     }
-
-                    mail('fabio@infoweb.be', __FILE__.' => '.__LINE__, var_export($model->translate($language)->attributes,true));
                 }
 
                 if (!$model->save()) {
+                    mail('ruben@infoweb.be', __FILE__ . ' => ' . __LINE__, var_export($model->getErrors(), TRUE));
                     return $this->render('update', [
                         'model' => $model,
                         'slider' => $slider,
@@ -186,8 +170,7 @@ class ImagesController extends BaseImagesController
                 $transaction->commit();
 
                 // Set flash message
-                $model->language = Yii::$app->language;
-                Yii::$app->getSession()->setFlash('image-success', Yii::t('app', '{item} has been updated', ['item' => $model->name]));
+                Yii::$app->getSession()->setFlash('image-success', Yii::t('app', '"{item}" has been updated', ['item' => $model->name]));
 
                 return $this->redirect(['index?sliderId=' . $slider->id]);
             }
