@@ -39,14 +39,30 @@ $this->render('_growl_messages');
     } ?>
 
     <?= FileInput::widget([
+        'id' => 'file-upload',
         'name' => 'ImageUploadForm[images][]',
         'options' => [
             'multiple' => true,
+            'style' => 'margin-bottom: 30px',
             //'accept' => 'image/*',
         ],
         'pluginOptions' => [
             'previewFileType' => 'any',
             'mainClass' => 'input-group-lg',
+            'uploadUrl' => Url::to(['/sliders/images/upload']),
+            'maxFileCount' => 100,
+            'overwriteInitial' => false,
+            'uploadAsync' => false,
+            'dropZoneTitle' => Yii::t('app', 'Drag & drop files here ...'),
+            'fileActionSettings' => [
+                'uploadClass' => 'hide',
+                'removeTitle' => Yii::t('app', 'Remove file'),
+                'uploadTitle' => Yii::t('app', 'Upload file'),
+                'indicatorNewTitle' => Yii::t('app', 'Not uploaded yet'),
+                'indicatorSuccessTitle' => Yii::t('app', 'Uploaded'),
+                'indicatorErrorTitle' => Yii::t('app', 'Upload Error'),
+                'indicatorLoadingTitle' => Yii::t('app', 'Uploading ...'),
+            ],
             'browseLabel' => Yii::t('app', 'Browse'),
             'removeLabel' => Yii::t('app', 'Remove'),
             'removeTitle' => Yii::t('app', 'Remove selected files'),

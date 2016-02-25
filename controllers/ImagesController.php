@@ -40,6 +40,10 @@ class ImagesController extends BaseImagesController
      */
     public function actionIndex()
     {
+        // An option-set id is provided through the url so store it in a session variable
+        if (Yii::$app->request->get('sliderId'))
+            Yii::$app->session->set('slider.sliderId', Yii::$app->request->get('sliderId'));
+
         $get = Yii::$app->request->get();
 
         $slider = Slider::findOne($get['sliderId']);
@@ -60,7 +64,7 @@ class ImagesController extends BaseImagesController
 
             $post = Yii::$app->request->post();
 
-            $slider = Slider::findOne($post['sliderId']);
+            $slider = Slider::findOne(Yii::$app->session->get('slider.sliderId'));
 
             $form = new ImageUploadForm;
             $images = UploadedFile::getInstances($form, 'images');
@@ -85,18 +89,17 @@ class ImagesController extends BaseImagesController
                 }
             }
 
-            if ($form->hasErrors('image')){
-                $form->addError(
-                    'image',
-                    count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded'
-                );
+            if ($form->hasErrors('image')) {
+                // @todo Translate
+                $response['message'] = count($form->getErrors('image')) . ' of ' . count($images) . ' images not uploaded';
             } else {
-                Yii::$app->session->setFlash('image-success', Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', [
+                $response['message'] = Yii::t('app', '{n, plural, =1{Image} other{# images}} successfully uploaded', [
                     'n' => count($images),
-                ]));
+                ]);
             }
 
-            return $this->redirect(['index?sliderId=' . $post['sliderId']]);
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $response;
 
         }
     }
@@ -109,8 +112,6 @@ class ImagesController extends BaseImagesController
      */
     public function actionUpdate($id, $sliderId)
     {
-        $languages = Yii::$app->params['languages'];
-
         $model = $this->findModel($id);
 
         $slider = Slider::findOne($sliderId);
@@ -160,7 +161,6 @@ class ImagesController extends BaseImagesController
                 }
 
                 if (!$model->save()) {
-                    mail('ruben@infoweb.be', __FILE__ . ' => ' . __LINE__, var_export($model->getErrors(), TRUE));
                     return $this->render('update', [
                         'model' => $model,
                         'slider' => $slider,
