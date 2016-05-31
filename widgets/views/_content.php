@@ -1,7 +1,9 @@
 <?php
 use yii\helpers\Html;
 ?>
-
+<style>
+    .carousel-inner { height: <?= (int) $slider->height;?>px; }
+</style>
 <?php if ($fixed): ?>
 <div class="fill" style="background-image:url(<?= $image->getUrl("{$slider->width}x{$slider->height}") ?>);"></div>
 <?php else: ?>
