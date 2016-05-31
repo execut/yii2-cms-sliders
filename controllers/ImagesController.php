@@ -193,8 +193,6 @@ class ImagesController extends BaseImagesController
         $model->delete();
 
         // Set flash message
-        $model->language = Yii::$app->language;
-
         Yii::$app->getSession()->setFlash('image-success', Yii::t('app', '"{item}" has been deleted', ['item' => $model->name]));
 
         return $this->redirect(['index?sliderId=' . $sliderId]);
