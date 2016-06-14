@@ -103,3 +103,6 @@ ___
 ##### enableImageUrl (type: `boolean`, default: `false`)
 If this option is set to `true`, it is possible to set an url for each image of a slider.
 ___
+##### enableTextPosition (type: `boolean`, default: `false`)
+If this option is set to `true`, it is possible to set a position for each image text in the a slider.
+___

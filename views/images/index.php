@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->render('_growl_messages');
 
 ?>
-
 <div class="images-index">
 
     <h1><?= Yii::t('app', 'Add {modelClass}', ['modelClass' => strtolower(Yii::t('app', 'Images'))] ) ?></h1>

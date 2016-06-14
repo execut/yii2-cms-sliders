@@ -44,6 +44,12 @@ class Module extends \yii\base\Module
      */
     public $enableImageUrl = false;
 
+    /**
+     * Enable the 'position' attribute for image's
+     * @var boolean
+     */
+    public $enableTextPosition = false;
+
     public function init()
     {
         parent::init();
