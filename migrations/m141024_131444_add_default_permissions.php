@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141024_131444_add_default_permissions extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         // Create the auth items
         $this->insert('{{%auth_item}}', [
@@ -23,7 +23,7 @@ class m141024_131444_add_default_permissions extends Migration
         ]);
     }
 
-    public function down()
+    public function safeDown()
     {
         // Delete the auth item relation
         

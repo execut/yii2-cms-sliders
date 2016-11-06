@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m141021_075310_init extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         
@@ -15,16 +15,16 @@ class m141021_075310_init extends Migration
         
         // Create 'slider' table
         $this->createTable('{{%slider}}', [
-            'id'                    => Schema::TYPE_PK,
-            'name'                  => Schema::TYPE_STRING . ' NOT NULL',
-            'width'                 => Schema::TYPE_INTEGER . '(5) UNSIGNED NOT NULL',
-            'height'                => Schema::TYPE_INTEGER . '(5) UNSIGNED NOT NULL',
-            'created_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
-            'updated_at'            => Schema::TYPE_INTEGER . ' UNSIGNED NOT NULL',
+            'id'                    => $this->primaryKey(),
+            'name'                  => $this->string()->notNull(),
+            'width'                 => $this->integer(5)->unsigned()->notNull(),
+            'height'                => $this->integer(5)->unsigned()->notNull(),
+            'created_at'            => $this->integer()->unsigned()->notNull(),
+            'updated_at'            => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('slider');
     }
